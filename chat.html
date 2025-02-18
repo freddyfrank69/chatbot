@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        #chat-container {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        #messages {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:disabled, #user-input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <input type="text" id="user-input" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') submitMessage()">
+        <button id="send-btn" onclick="submitMessage()">Send</button>
+    </div>
+
+    <script>
+        async function submitMessage() {
+            const message = document.getElementById('user-input').value;
+            if (!message.trim()) return; // Do nothing if the input is empty
+
+            // Disable input and button while waiting for response
+            document.getElementById('user-input').disabled = true;
+            document.getElementById('send-btn').disabled = true;
+
+            // Display the user message
+            document.getElementById('messages').innerHTML += `<p><strong>User:</strong> ${message}</p>`;
+            document.getElementById('user-input').value = ''; // Clear the input field
+
+            // Scroll to the bottom of the messages container
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Get the bot's response
+            const response = await sendMessageToBot(message);
+            document.getElementById('messages').innerHTML += `<p><strong>Bot:</strong> ${response}</p>`;
+
+            // Scroll again to ensure the new message is visible
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Enable input and button after the response
+            document.getElementById('user-input').disabled = false;
+            document.getElementById('send-btn').disabled = false;
+        }
+
+        async function sendMessageToBot(message) {
+            try {
+                const response = await fetch('http://localhost:5000/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get response from the server');
+                }
+
+                const data = await response.json();
+                return data.response;
+            } catch (error) {
+                console.error(error);
+                return 'Sorry, there was an error processing your request.';
+            }
+        }
+
+    </script>
+</body>
+</html>
