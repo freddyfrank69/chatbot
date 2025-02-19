@@ -54,7 +54,7 @@
             document.getElementById('send-btn').disabled = true;
 
             // Display the user message
-            document.getElementById('messages').innerHTML += `<p><strong>User:</strong> ${message}</p>`;
+            document.getElementById('messages').innerHTML += `<p><strong>You:</strong> ${message}</p>`;
             document.getElementById('user-input').value = ''; // Clear the input field
 
             // Scroll to the bottom of the messages container
@@ -63,7 +63,7 @@
 
             // Get the bot's response
             const response = await sendMessageToBot(message);
-            document.getElementById('messages').innerHTML += `<p><strong>Bot:</strong> ${response}</p>`;
+            document.getElementById('messages').innerHTML += `<p><strong>AI Agent:</strong> ${response}</p>`;
 
             // Scroll again to ensure the new message is visible
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
