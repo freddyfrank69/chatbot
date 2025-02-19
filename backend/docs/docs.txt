@@ -1,0 +1,139 @@
+Documentation
+
+DoorBee - Smart Video Doorbell Documentation
+
+Product Documentation
+
+Features:
+
+1080p HD Video: Crystal clear video streaming.
+
+Two-Way Audio: Speak and listen through the app.
+
+Motion Detection & Alerts: Get instant notifications.
+
+Night Vision: Clear footage even in low light.
+
+Cloud & Local Storage: Store recordings securely.
+
+Smart Home Integration: Works with Alexa, Google Assistant.
+
+Wireless & Wired Options: Choose your preferred setup.
+
+Installation Guide:
+
+Unbox Your DoorBee: Ensure all components are present.
+
+Charge the Battery (If Wireless): Fully charge before setup.
+
+Download the DoorBee App: Available on iOS and Android.
+
+Connect to Wi-Fi: Use the app to pair with your home network.
+
+Mount the DoorBee: Use screws or adhesive mount.
+
+Test the Device: Check video, audio, and motion alerts.
+
+Troubleshooting Steps:
+
+Device Won’t Connect to Wi-Fi: Ensure 2.4GHz network, restart router.
+
+Motion Alerts Not Working: Check sensitivity settings in the app.
+
+No Audio from DoorBee: Ensure microphone is enabled.
+
+Live Video Lagging: Improve signal strength or upgrade router.
+
+FAQs
+
+How do I reset my DoorBee?
+
+Hold the reset button for 10 seconds until LED blinks.
+
+Can I share DoorBee access with family?
+
+Yes, use the app to invite users.
+
+Does DoorBee work without Wi-Fi?
+
+Limited functionality; live view and alerts require an internet connection.
+
+Is the DoorBee waterproof?
+
+Yes, it is weather-resistant.
+
+Support Articles
+
+Firmware Updates:
+
+Latest Update (v3.2.1): Improves AI motion detection.
+
+How to Update: Go to settings > device info > update firmware.
+
+Device Compatibility:
+
+Compatible Routers: Works best with dual-band routers (2.4GHz only).
+
+Smart Home Devices: Integrates with Alexa, Google Home.
+
+Integrations:
+
+IFTTT Automation: Set up custom triggers and actions.
+
+Smart Locks: Sync with select smart lock brands.
+
+Customer Reviews & Feedback
+
+Jane D. (5 Stars): “Great video quality and easy setup!”
+
+Mark T. (4 Stars): “Love the features, but wish it had better battery life.”
+
+Lisa R. (3 Stars): “Good product but had some connectivity issues.”
+
+Company Policies
+
+Warranty:
+
+1-Year Limited Warranty covering manufacturer defects.
+
+Returns:
+
+30-Day Return Policy: Must be in original condition.
+
+Privacy Policy:
+
+Data Protection: Video footage is encrypted and stored securely.
+
+User Control: Customers can delete recordings anytime.
+
+Context Awareness
+
+If a user asks, "Why is my DoorBee offline?", the chatbot should check:
+
+Wi-Fi connection status.
+
+Recent firmware updates.
+
+Power source (battery/wired check).
+
+If a user asks, "How do I install it?", guide them through step-by-step instructions.
+
+Concise Answers
+
+Reset DoorBee: Hold the button for 10 seconds.
+
+Check Motion Alerts: Enable in app settings.
+
+Enable Night Vision: Automatic in low light.
+
+Step-by-Step Instructions
+
+Troubleshooting Wi-Fi Issues:
+
+Restart your router and DoorBee.
+
+Ensure your network is 2.4GHz.
+
+Move the device closer to the router.
+
+Reset the device and reconnect.

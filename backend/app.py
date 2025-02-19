@@ -7,8 +7,12 @@ from langchain_text_splitters.character import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferWindowMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.document_loaders import TextLoader
+from langchain.document_loaders import DirectoryLoader
+from config import custom_instruction
 
 # Load environment variables
 load_dotenv()
@@ -20,28 +24,34 @@ CORS(app)
 google_api_key = os.getenv("GOOGLE_API_KEY")
 
 # Build Vector database
-file_path = "./docs/PBL6.pdf"
-loader = PyPDFLoader(file_path)
+file_path = "./docs/docs.txt"
+# dir_path = "./docs"
+loader = TextLoader(file_path, encoding="utf-8")
 docs = loader.load()
 
 # Split document into chunks
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=200)
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=500
+)
 doc_chunks = text_splitter.split_documents(docs)
 
 # Embed the chunks and store them in a vector store
 embeddings = HuggingFaceEmbeddings()
 vectordb = FAISS.from_documents(doc_chunks, embeddings)
 
-# Initialize Google Generative AI
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
-retriever = vectordb.as_retriever(search_kwargs={"k": 2})
+# Initialize Google Generative AI with custom instruction
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", system_message=custom_instruction)
+retriever = vectordb.as_retriever(search_kwargs={"k": 3})
 
-memory = ConversationBufferMemory(
-    llm=llm, output_key="answer", memory_key="chat_history", return_messages=True
+memory = ConversationBufferWindowMemory(
+    k=3,  # Keep only the last 5 interactions
+    memory_key="chat_history",
+    return_messages=True
 )
 
 chain = ConversationalRetrievalChain.from_llm(
-    llm=llm, retriever=retriever, chain_type="map_reduce", memory=memory, verbose=True
+    llm=llm, retriever=retriever, chain_type="stuff", memory=memory, verbose=True
 )
 
 @app.route("/chat", methods=["POST"])

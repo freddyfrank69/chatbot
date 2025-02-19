@@ -1,1 +1,5 @@
 .env
+.env.example
+*.example
+*.example
+*.example
