@@ -5,96 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f5;
+        }
+
         #chat-container {
-            width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            width: 1200px;
+            height: 800px;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         #messages {
-            height: 300px;
+            flex-grow: 1;
             overflow-y: auto;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fff;
         }
 
-        #user-input {
-            width: 80%;
-            padding: 5px;
+        .message {
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 75%;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #3498db;
+            color: white;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background-color: #ecf0f1;
+            color: black;
+        }
+
+        #input-container {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            background: white;
+        }
+
+        input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
         }
 
         button {
-            padding: 5px 10px;
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
 
-        button:disabled, #user-input:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
 <body>
     <div id="chat-container">
         <div id="messages"></div>
-        <input type="text" id="user-input" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') submitMessage()">
-        <button id="send-btn" onclick="submitMessage()">Send</button>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') submitMessage()">
+            <button id="send-btn" onclick="submitMessage()">Send</button>
+        </div>
     </div>
 
     <script>
         async function submitMessage() {
-            const message = document.getElementById('user-input').value;
-            if (!message.trim()) return; // Do nothing if the input is empty
+            const inputField = document.getElementById('user-input');
+            const message = inputField.value.trim();
+            if (!message) return;
 
-            // Disable input and button while waiting for response
+            appendMessage('You', message, 'user-message');
+            inputField.value = '';
+            disableInput();
+
+            try {
+                const response = await sendMessageToBot(message);
+                appendMessage('AI', response, 'ai-message');
+            } catch (error) {
+                console.error(error);
+                appendMessage('AI', 'Sorry, there was an error processing your request.', 'ai-message');
+            }
+
+            enableInput();
+        }
+
+        async function sendMessageToBot(message) {
+            const response = await fetch('http://localhost:5000/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+            if (!response.ok) throw new Error("Server error");
+            const data = await response.json();
+            return data.response;
+        }
+
+        function appendMessage(sender, text, className) {
+            const messagesDiv = document.getElementById('messages');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', className);
+            messageElement.innerHTML = `<strong>${sender}:</strong> ${escapeHtml(text)}`;
+            messagesDiv.appendChild(messageElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function disableInput() {
             document.getElementById('user-input').disabled = true;
             document.getElementById('send-btn').disabled = true;
+        }
 
-            // Display the user message
-            document.getElementById('messages').innerHTML += `<p><strong>You:</strong> ${message}</p>`;
-            document.getElementById('user-input').value = ''; // Clear the input field
-
-            // Scroll to the bottom of the messages container
-            const messagesDiv = document.getElementById('messages');
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-            // Get the bot's response
-            const response = await sendMessageToBot(message);
-            document.getElementById('messages').innerHTML += `<p><strong>AI Agent:</strong> ${response}</p>`;
-
-            // Scroll again to ensure the new message is visible
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-            // Enable input and button after the response
+        function enableInput() {
             document.getElementById('user-input').disabled = false;
             document.getElementById('send-btn').disabled = false;
         }
 
-        async function sendMessageToBot(message) {
-            try {
-                const response = await fetch('http://localhost:5000/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ message: message }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to get response from the server');
-                }
-
-                const data = await response.json();
-                return data.response;
-            } catch (error) {
-                console.error(error);
-                return 'Sorry, there was an error processing your request.';
-            }
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;')
+                      .replace(/'/g, '&#39;');
         }
-
     </script>
 </body>
 </html>
