@@ -1,860 +1,0 @@
-﻿     ĐẠI HỌC ĐÀ NẴNG
-     ĐẠI HỌC BÁCH KHOA
-     KHOA CÔNG NGHỆ THÔNG TIN
-    
-
-
-    
-    
-PBL6: DỰ ÁN CHUYÊN NGÀNH CÔNG NGHỆ PHẦN MỀM
-Đề tài: HỆ THỐNG NGHE NHẠC TRỰC TUYỂN MELODIES
-    GIẢNG VIÊN HƯỚNG DẪN: ThS. Mai Văn Hà
-SINH VIÊN THỰC HIỆN:
-            Đinh Hoàng Phi Hùng 		LỚP: XXX   NHÓM: YYY  
-            Nguyễn Như Hoàng 		LỚP: XXX   NHÓM: YYY  
-            Nguyễn Phan Bảo Lộc 		LỚP: XXX   NHÓM: YYY  
-            Hoàng Thị Hồng Thắm 		LỚP: XXX   NHÓM: YYY  
-    	
-
-    
-    Đà Nẵng  XXX-2022
-
-LỜI MỞ ĐẦU
-      Trong thời đại công nghệ số phát triển vượt bậc, âm nhạc không chỉ là một loại hình nghệ thuật mà còn là cầu nối gắn kết cảm xúc, lan tỏa văn hóa và thúc đẩy sự sáng tạo. Việc nghe nhạc trực tuyến đã trở thành một phần không thể thiếu trong đời sống hàng ngày của hàng triệu người, mang đến sự tiện lợi và trải nghiệm âm nhạc đa dạng trên mọi nền tảng. Tuy nhiên, việc giữ chân người dùng trở nên khó khăn hơn khi họ có nhiều lựa chọn trên các nền tảng khác nhau. Cải thiện trải nghiệm cá nhân hóa, giữ cho người dùng tương tác lâu dài, và tạo ra các tính năng độc đáo để thu hút người dùng quay lại là những vấn đề cần được quan tâm.
-      Dự án Hệ thống nghe nhạc trực tuyến Melodies của chúng tôi ra đời nhằm mục tiêu tạo nên một hệ sinh thái âm nhạc toàn diện, nơi người dùng có thể tiếp cận thư viện bài hát phong phú, khám phá những xu hướng mới nhất và kết nối với cộng đồng yêu nhạc trên toàn cầu. Đồng thời, dự án còn hướng đến việc hỗ trợ các nghệ sĩ, nhà sáng tạo nội dung âm nhạc và tạo sân chơi công bằng, minh bạch cho các bên tham gia trong ngành công nghiệp này.
-      Vận dụng những kiến thúc được học từ các học phần trước về nền tảng, phát triển phần mềm và quản lý dự án, cùng với sự hướng dẫn tận tình của thầy Mai Văn Hà đã giúp chúng em xây dựng nên Hệ thống nghe nhạc trực tuyến Melodies. Trong vòng 4 tháng triển khai dự án, hệ thống đã hoàn thiện được các tính năng chính, đảm bảo yêu cầu đặt ra ban đầu. Sản phẩm bao gồm Web Admin, Web end-user, App mobile enduser, Web API và triển khai thực tế. 
-      Với sự hạn chế về mặt kiến thức cũng như kinh nghiệm thực tế nên sản phẩm, báo cáo của chúng em vẫn còn nhiều thiếu sót, vậy chúng em rất mong nhận được sự góp ý thêm từ các quý thầy cô và các bạn để cải thiện thêm cho dự án này cũng như giúp chúng em có thêm kinh nghiệm làm tốt hơn ở những dự án sau này.
-
-MỤC LỤC
-LỜI MỞ ĐẦU	2
-MỤC LỤC	3
-DANH MỤC BẢNG BIỂU	6
-1.	LỊCH SỬ PHÁT TRIỂN TÀI LIỆU TÀI LIỆU	9
-2.	CÁC TÀI LIỆU ĐÃ THIẾT KẾ	9
-3.	PHÂN CÔNG NHIỆM VỤ	9
-4.	MỤC ĐÍCH TÀI LIỆU	10
-    4.1.	Mục đích	10
-    4.2.	Phạm vi	10
-    4.2.1.	Đối tượng mà đề tài hướng đến	10
-    4.2.2.	Phạm vi kỹ thuật	10
-    4.2.3.	Ràng buộc, giới hạn	11
-5.	QUẢN LÝ DỰ ÁN	11
-6.	CƠ SỞ LÝ THUYẾT	13
-    6.1.	Kiến trúc client-server	13
-    6.2.	Mô hình học sâu Phobert	13
-    6.3.	Web socket	15
-    6.4.	Thuật toán lọc cộng tác (Collaborative Filtering)	17
-7.	ĐẶC TẢ YÊU CẦU DỰ ÁN	17
-    7.1.	Yêu cầu chức năng	17
-    7.1.1.	Khách	17
-    7.1.2.	Người dùng	18
-    7.1.3.	Admin	19
-    7.2.	Yêu cầu phi chức năng	19
-    7.2.1.	Hiệu suất	19
-    7.2.2.	Khả năng mở rộng	19
-    7.2.3.	Bảo mật	20
-    7.2.4.	Giao diện	20
-    7.2.5.	Ngôn ngữ	20
-    7.3.	Các chức năng đặc biệt	20
-    7.3.1.	Lọc bình luận tiêu cực	20
-    7.3.2.	Nghe nhạc cùng nhau	23
-    7.3.3.	Đề xuất nhạc cho người dùng	25
-    7.3.4.	Chế độ nghe nhạc offline	26
-8.	PHÂN TÍCH THIẾT KẾ HỆ THỐNG	28
-    8.1.	Ca sử dụng	28
-    8.1.1.	Tác nhân	28
-    8.1.2.	Đặc tả ca sử dụng	29
-    8.2.	Kiến trúc hệ thống	38
-    8.2.1.	Kiến trúc tổng quan	38
-    8.2.2.	Kiến trúc phần mềm	39
-    8.2.3.	Công nghệ sử dụng	40
-    8.3.	Biểu đồ hoạt động	40
-    8.4.	Biểu đồ tuần tự	50
-    8.5.	Cơ sở dữ liệu	54
-    8.6.	Thiết kế giao diện	60
-    8.6.1.	Web administration	60
-    8.6.2.	Web end-user	66
-    8.6.3.	App end-user	82
-    8.7.	Đặc tả API	89
-    8.7.1.	Api user upload nhạc (dành cho premium)	89
-    8.7.2.	Api user upload nhạc (dành cho premium)	90
-    8.7.3.	Api get bài hát	91
-    8.7.4.	Api report bài hát	92
-    8.8.	Kiểm thử	92
-9.	SẢN PHẨM	97
-    9.1.	Web end-user	97
-    9.2.	Web admin	97
-    9.3.	App end-user	98
-KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN	98
-    9.4.	Kết luận	99
-    9.5.	Hướng phát triển	99
-10.	TÀI LIỆU THAM KHẢO	100
-    
-
-DANH MỤC BẢNG BIỂU
-Bảng 1 - 1 Lịch sử phát triển tài liệu	9
-Bảng 2 - 1 Các tài liệu đã thiết kế	9
-Bảng 3 - 1 Bảng phân công nhiệm vụ	10
-Bảng 8 - 1 Đăng nhập	30
-Bảng 8 - 2 Đăng kí	31
-Bảng 8 - 3 Nghe nhạc trực tuyến	32
-Bảng 8 - 4 Nghe nhạc cùng nhau	33
-Bảng 8 - 5 Quản lý ca sĩ	34
-Bảng 8 - 6 Quản lý user	35
-Bảng 8 - 7 Quản lý tracks	36
-Bảng 8 - 8 Quản lý albums	37
-Bảng 8 - 9 Quản lý báo cáo bình luận	38
-Bảng 8 - 10 Bảng mô tả sơ đồ ERD	56
-Bảng 8 - 11 Bảng mô tả màn hình danh sách người dùng	60
-Bảng 8 - 12 Bảng mô tả màn hình danh sách nghệ sĩ	62
-Bảng 8 - 13 Bảng mô tả màn hình danh sách bài hát	64
-Bảng 8 - 14 Bảng mô tả màn hình danh sách album	66
-Bảng 8 - 15 Bảng mô tả màn hình đăng nhập	67
-Bảng 8 - 16 Bảng mô tả màn hình đăng kí	69
-Bảng 8 - 17 Bảng mô tả màn hình nhập OTP	71
-Bảng 8 - 18 Bảng mô tả màn hình kết quả tìm kiếm	73
-Bảng 8 - 19 Bảng mô tả màn hình danh sách playlist và chi tiết playlist	76
-Bảng 8 - 20 Bảng mô tả màn hình chi tiết nghệ sĩ	78
-Bảng 8 - 21 Bảng mô tả màn hình chi tiết album	79
-Bảng 8 - 22 Bảng mô tả màn hình chi tiết bài hát	82
-Bảng 8 - 23 Bảng mô tả màn hình quản lý tài khoản	83
-Bảng 8 - 24 Bảng mô tả mản hình chỉnh sửa hồ sơ	85
-Bảng 8 - 25 Bảng mô tả màn hình trình phát nhạc	89
-
-DANH MỤC HÌNH ẢNH
-Hình 5 - 1 Minh chứng cuộc họp	11
-Hình 5 - 2 Báo cáo từng cuộc họp	11
-Hình 5 - 3 Repository web end-user	12
-Hình 6 - 1 Pretrain của mô hình PhoBert	15
-Hình 6 - 2 Decode tiếng Việt bằng mô hình PhoBert	15
-Hình 6 - 3 Sơ đồ hoạt động Socketio	16
-Hình 6 - 4 Nguyên lý hoạt động Socket	16
-Hình 7 - 1 Thông số huấn luyện mô hình với 8 epochs	22
-Hình 7 - 2 Kiểm tra mô hình bằng các ví dụ	22
-Hình 7 - 3 Phân phối mức giá trị cột 'toxic'	23
-Hình 7 - 4 Nguyên lý hoạt động Socket trong hệ thống	24
-Hình 7 - 5 Quy trình hoạt động chức năng trong hệ thống	25
-Hình 8 - 1 Usecase tổng quan của Người dùng, Khách	28
-Hình 8 - 2 Usecase tổng quan của Admin	29
-Hình 8 - 3 Biểu đồ hoạt động đăng kí bằng email, password	41
-Hình 8 - 4 Biểu đồ hoạt động đăng nhập	42
-Hình 8 - 5 Biểu đồ hoạt động quên mật khẩu	42
-Hình 8 - 6 Biểu đồ hoạt động tìm kiếm bằng từ khóa	43
-Hình 8 - 7 Biểu đồ hoạt động phát nhạc trực tuyến	43
-Hình 8 - 8 Biểu đồ hoạt động yêu thích bài hát	44
-Hình 8 - 9 Biểu đồ hoạt động bình luận, trả lời bình luận	45
-Hình 8 - 10 Biểu đồ hoạt động quản lý playlist	46
-Hình 8 - 11 Biểu đồ hoạt động thêm nhạc vào playlist	47
-Hình 8 - 12 Biểu đồ hoạt động thanh toán VNPAY	48
-Hình 8 - 13 Biểu đồ hoạt động nghe nhạc cùng nhau	49
-Hình 8 - 14 Biểu đồ tuần tự quản lý bài hát	50
-Hình 8 - 15  Biểu đồ tuần tự tìm kiếm bằng từ khóa	51
-Hình 8 - 16 Biểu đồ tuần tự nghe nhạc cùng nhau	52
-Hình 8 - 17 Biểu đồ tuần tự đề xuất nhạc	53
-Hình 8 - 18 Biểu đồ tuần tự bình luận bài hát	53
-Hình 8 - 19 Biểu đồ tuần tự phát nhạc trực tuyến	54
-Hình 8 - 20 Sơ đồ ERD hệ thống	54
-Hình 8 - 21 Màn hình danh sách người dùng	60
-Hình 8 - 22 Màn hình danh sách nghệ sĩ	61
-Hình 8 - 23 Màn hình xem danh sách bài hát	63
-Hình 8 - 24 Màn hình danh sách album	64
-Hình 8 - 25 Màn hình đăng nhập	66
-Hình 8 - 26 Màn hình đăng kí	68
-Hình 8 - 27 Màn hình nhập OTP	70
-Hình 8 - 28 Màn hình kết quả tìm kiếm	72
-Hình 8 - 29 Màn hình danh sách playlist và chi tiết playlist	74
-Hình 8 - 30 Màn hình chi tiết nghệ sĩ	76
-Hình 8 - 31 Màn hình chi tiết album	78
-Hình 8 - 32 Màn hình chi tiết bài hát	80
-Hình 8 - 33 Màn hình quản lý tài khoản	82
-Hình 8 - 34 Màn hình chỉnh sửa hồ sơ	84
-Hình 8 - 35 Màn hình trình phát nhạc	86
-Hình 9- 1 Giao diện chính web end-user	97
-Hình 9- 2 Giao diện chính web admin	97
-Hình 9- 3 Giao diện chính app end-user	98
-    
-    
-    
-    
-
-
-
-
-
-1. 
-LỊCH SỬ PHÁT TRIỂN TÀI LIỆU TÀI LIỆU
-NgàyTóm tắt công việcPhiên bản20-08-2024Viết đề xuất đề tài1.024-09-2024Viết tài liệu SRS đề tài
-Vẽ mockup web end-user, web addmin
-Thiết kế cơ sở dữ liệu1.029-12-2024Chỉnh sửa và hoàn thiện báo cáo1.0Bảng 1 - 1 Lịch sử phát triển tài liệu
-2. CÁC TÀI LIỆU ĐÃ THIẾT KẾ
-Document NameDescriptionĐề xuất đề tàiLà tài liệu để trình bày ý tưởng, phác thảo các chức năng chính của hệ thốngTài liệu đặc tả yêu cầu phần mềm (SRS) - MelodiesLà bản kế hoạch mô tả chi tiết các yêu cầu chức năng và phi chức năng của phần mềmTài liệu thiết kế giao diện (Figma) - MelodiesLà bản thiết kế giao diện các màn hình của hệ thốngTài liệu thiết kế cơ sở dữ liệu (ERD) - MelodiesLà sơ đồ trực quan thể hiện cấu trúc logic của sơ sở dữ liệu, mô tả các thực thể, thuộc tính và mối quan hệ của chúngBảng 2 - 1 Các tài liệu đã thiết kế
-3. PHÂN CÔNG NHIỆM VỤ
-NameTitleĐinh Hoàng Phi Hùng* Tạo Usecase tổng quát User
-* Thiết kế giao diện Web end-user
-* Thiết kế giao diện App end-user
-* Làm silde, viết báo cáoNguyễn Như Hoàng* Tạo Usecase tổng quát User
-* Thiết kế giao diện App end-user
-* Làm silde, viết báo cáoNguyễn Phan Bảo Lộc* Tạo các Usecase cho phần Admin
-* Thiết kế database, API
-* Deploy, thiết kế server
-* Làm silde, viết báo cáoHoàng Thị Hồng Thắm* Tạo Usecase tổng quát Admin
-* Thiết kế giao diện Web end-user
-* Thiết kế giao diện Web admin
-* Làm silde, viết báo cáoBảng 3 - 1 Bảng phân công nhiệm vụ
-4. MỤC ĐÍCH TÀI LIỆU
-4.1. Mục đích
-* Mục đích của tài liệu này mô tả một cách chi tiết về những chức năng của "Hệ thống nghe nhạc trực tuyến Melodies". Nó minh họa chi tiết chức năng và xây dựng một hệ thống hoàn chỉnh. Nó giải thích rõ ràng về ràng buộc của hệ thống, trình bày tổng quan về giao diện và những tương tác với hệ thống hay ứng dụng khác bên ngoài. Tài liệu này dùng mô tả trình bày lại với khách hàng nhằm chỉnh sửa và điều chỉnh được tốt hơn.
-4.2. Phạm vi
-4.2.1. Đối tượng mà đề tài hướng đến
-* Hệ thống nghe nhạc trực tuyến Melodies giúp người dùng dễ dàng tìm kiếm và nghe nhạc, tạo và quản lý playlist cá nhân, khám phá các bản nhạc mới dựa trên sở thích. Ngoài ra, các tính năng như chế độ offline và download kết hợp với tính năng nghe nhạc cùng nhau cũng mang lại trải nghiệm tốt hơn cho người dùng..	
-* Hệ thống phục vụ cho 3 đối tượng người dùng chính:
-o Admin
-o User
-o Khách
-4.2.2. Phạm vi kỹ thuật
-* Thiết kế và phát triển ứng dụng web và di động phát nhạc trực tuyến, tạo và quản lý playlist cá nhân
-* Tích hợp tính năng nghe nhạc offline để hỗ trợ người dùng sử dụng mọi lúc mọi nơi
-* Tạo ra nơi để người dùng bình luận bài hát văn minh bằng cách sử dụng mô hình AI để lọc những bình luận tiêu cực
-* Sử dụng API để truy xuất thông tin từ các dịch vụ bên thứ ba (ví dụ: Genius, dịch vụ để lấy lời bài hát). 
-4.2.3. Ràng buộc, giới hạn
-5. QUẢN LÝ DỰ ÁN
-   Nhóm quản lý công việc bằng việc áp dụng mô hình Scrum để vận hành nhóm. Mỗi tuần sẽ triển khhai họp 1 lần để theo dõi tiến độ và ghi lại báo cáo họp tuần. Buổi họp được triển khai cố định lúc 8h30 vào ngày thứ 5 và được tổ chức thông qua MS Team hoặc họp trực tiếp và lập biên bản cuộc họp để ghi lại những điều đã làm được và sẽ triển khai trong tuần tới
-
-Hình 5 - 1 Minh chứng cuộc họp
-
-Hình 5 - 2 Báo cáo từng cuộc họp
-   Về công cụ quản lý mã nguồn, nhóm lựa chọn GitHub và thống nhất với nhau một số quy tắc khi làm việc với git. Các bạn sẽ đặt tên branch feature theo cú pháp feature/Tên chức năng, ví dụ feature/fix-async-song. Các thành viên khác sẽ review code, approve mà merge vào main
-
-Hình 5 - 3 Repository web end-user
-   Đây là 3 repositories tương ứng với 3 sản phẩm của nhóm trên github
-* Web end-user, Web admin: https://github.com/hongtham22/melodies
-* App end-user: https://github.com/dhph17/melodies_app
-* API: https://github.com/bin2009/melodies_server
-
-6. 
-CƠ SỞ LÝ THUYẾT
-6.1. Kiến trúc client-server
-* Định nghĩa kiến trúc Client-Server Kiến trúc Client-Server là một mô hình phân tán trong đó việc tính toán được chia thành hai phần chính:
-o Client (máy khách): Với vai trò là máy khách, chúng sẽ không cung cấp tài nguyên đến các máy tính khác mà chỉ sử dụng tài nguyên được cung cấp từ máy chủ. Một client trong mô hình này có thể là một server cho mô hình khác, tùy thuộc vào nhu cầu sử dụng của người dùng.
-o Server (máy chủ): Là thiết bị có khả năng cung cấp tài nguyên và các dịch vụ đến các máy khách khác trong hệ thống mạng. Server đóng vai trò hỗ trợ cho các hoạt động trên máy khách client diễn ra hiệu quả hơn.
-* Nguyên tắc hoạt động:
-o Mô hình Client-Server là mô hình mạng máy tính trong đó các máy tính con được đóng vai như một máy khách, chúng làm nhiệm vụ gưi yêu cầu đến các máy chủ Server. Server chấp nhận tất cả các yêu cầu hợp lệ từ mọi nơi khác nhau trên Internet, sau đó trả kết quả về máy khách đã gửi yêu cầu đó.
-o Để máy khách và máy chủ có thể giao tiếp được với nhau thì giữa chúng phải có một chuẩn nhất định, và chuẩn đó được gọi là giao thức. Một số giao thức được sử dụng phổ biến hiện nay như: HTTPS, TCP/IP, FTP,...
-* Đặc điểm cơ bản
-o Mô hình hoạt động theo cơ chế yêu cầu-phản hồi (request-response)
-o Server luôn trong trạng thái lắng nghe yêu cầu từ client
-o Client chủ động khởi tạo kết nối và gửi yêu cầu
-o Server xử lý yêu cầu và gửi kết quả về cho client
-o Có thể có nhiều client cùng kết nối đến một server
-6.2. Mô hình học sâu Phobert
-6.2.1. Mô hình Bert: 
-* BERT (Bidirectional Encoder Representations from Transformers) là một mô hình xử lý ngôn ngữ tự nhiên (NLP) có khả năng học các biểu diễn ngữ nghĩa sâu sắc từ văn bản.
-* Kiến trúc Bert: 
-o BERT được xây dựng dựa trên kiến trúc Transformer, cụ thể là Transformer Encoder. Đây là một kiến trúc học sâu sử dụng cơ chế self-attention để xử lý ngữ cảnh của từ trong câu.
-o Các thành phần chính của BERT:
-* Multi-head Self-Attention: Giúp mô hình nắm bắt mối quan hệ giữa các từ ở bất kỳ vị trí nào trong câu.
-* Feedforward Neural Network: Lớp mạng nơ-ron được áp dụng cho từng vị trí sau khi tính toán attention.
-* Embedding Layer: Chuyển đổi các từ thành các vector số (word embeddings), bao gồm:
-- Embedding của từ (WordPiece tokenization).
-- Embedding của vị trí từ (positional embedding).
-- Embedding của phân đoạn (segment embedding) để phân biệt giữa hai đoạn văn khi cần.
-* Đặc điểm nổi bật của BERT
-o Học ngữ cảnh hai chiều (Bidirectional Contextual Learning): BERT được thiết kế để huấn luyện trước các biểu diễn từ (pre-train word embedding). Điểm đặc biệt ở BERT đó là nó có thể điều hòa cân bằng bối cảnh theo cả 2 chiều trái và phải.
-o Pre-trained and Fine-tuned: 
-* Pre-training: Huấn luyện trên dữ liệu không gắn nhãn với hai nhiệm vụ:
-- Masked Language Model (MLM): Dự đoán các từ bị che trong câu.
-- Next Sentence Prediction (NSP): Xác định xem một câu có phải câu tiếp theo của câu trước hay không.
-* Fine-tuning: Tinh chỉnh mô hình trên các bài toán NLP cụ thể như phân loại văn bản, phân tích cảm xúc, hoặc trả lời câu hỏi.
-6.2.2. Mô hình PhoBert
-* Phobert là một biến thể của BERT, được tối ưu hóa đặc biệt cho tiếng Việt.
-* Phobert được huấn luyện trên dữ liệu tiếng Việt và có khả năng hiểu và xử lý ngôn ngữ này tốt hơn các mô hình BERT gốc, do được điều chỉnh cho các đặc thù ngữ pháp và từ vựng của tiếng Việt.
-* Phobert đã được áp dụng rộng rãi trong các ứng dụng như phân tích cảm xúc, phân loại văn bản, và các tác vụ NLP khác cho tiếng Việt.
-
-Hình 6 - 1 Pretrain của mô hình PhoBert
-
-     Hình 6 - 2 Decode tiếng Việt bằng mô hình PhoBert
-6.3. Web socket
-* Trước hết, Web Socket là một công nghệ, mô hình tổ chức kết nối giữa client-server để một trong 2 bên luôn trong tình trạng sẵn sàng trả lời bên kia và ngược lại.
-* Web Socket sẽ giúp phản hồi theo thời gian thực thay vì mỗi khi có sự kiện lại phải thực thi một loại các thủ tục kết nối phức tạp như các API thông thường.
-* Socket.io là một thư viện sử dụng công nghệ Web Socket để thực hiện kết nối thời gian thực. Socket.io có nhiều phiên bản hỗ trợ các ngôn ngữ lập trình, nền tảng khác nhau (NodeJS, Python, Golang, Java...).
-* Socket.IO là công cụ kết nối mở cho phép máy chủ và máy khách giao tiếp hai chiều với nhau theo thời gian thực. Khi máy chủ có Socket.IO và máy khách có gói Socket.IO trong trình duyệt thì việc liên kết sẽ được thực hiện.
-
-     Hình 6 - 3 Sơ đồ hoạt động Socketio
-* Socket.IO sử dụng Engine.IO để thiết lập kết nối và trao đổi dữ liệu tạo điều kiện cho việc triển khai máy chủ của khách hàng. Engine.IO được sử dụng để triển khai máy chủ và Engine.IO-client được sử dụng cho máy khách. Ngoài ra, Socket.IO còn dựa trên nền tảng Engine.IO để thiết lập kết nối long-polling thông qua xhr-polling và nâng cấp lên phương pháp kết nối tối ưu hơn.
-* Nguyên lý hoạt động của Socket
-
-     Hình 6 - 4 Nguyên lý hoạt động Socket
-o Socket.IO sử dụng tính năng giao tiếp hai chiều để phát triển các ứng dụng trò chuyện. Các tin nhắn gửi về máy chủ sẽ được gửi trực tiếp cho máy khách mà không cần bất cứ yêu cầu trung gian nào.
-o Socket là chiếc cầu nối đối với thế giới của kết nối mạng, hoạt động dựa trên nguyên lý đơn giản nhưng mạnh mẽ. Tính năng chính của nó là tạo ra một kênh giao tiếp hai chiều giữa client server, một dạng đường truyền ảo qua không gian rộng của Internet, dựa trên hai giao thức chủ chốt là TCP/IP và UDP.
-o Để Socket có thể thực hiện nhiệm vụ kết nối này, trước hết, cả client và server cần biết rõ về đối tác của mình. Thông tin về địa chỉ IP và số hiệu cổng là nguồn dẫn cho socket di chuyển qua không gian mạng.
-o Đặc biệt, để tạo nên một cuộc gặp gỡ mượt mà, có một số điều kiện mà cả hai bên cần phải đáp ứng. Cả hai ứng dụng, có thể đặt ở trên cùng một máy hoặc hai máy khác nhau, phải có sự thấu hiểu tương tác với nhau. Điều này giúp tránh tình trạng hỗn loạn khi kết nối và giúp cho quá trình truyền thông dữ liệu diễn ra một cách trơn tru và hiệu quả. 
-6.4. Thuật toán lọc cộng tác (Collaborative Filtering)
-* Lọc cộng tác là phương pháp dựa trên hành vi và sở thích của người dùng để dự đoán những sản phẩm mà họ có thể thích. Nó dựa trên giả định rằng nếu hai người dùng có những sở thích tương tự trong quá khứ, họ cũng sẽ có sở thích tương tự trong tương lai.
-* Có 2 phương pháp lọc cộng tác:
-o Lọc cộng tác dựa trên người dùng (User-Based Collaborative Filtering)
-* Tìm kiếm những người dùng tương tự với người dùng mục tiêu dựa trên các đánh giá hoặc hành vi của họ.
-* Sử dụng thông tin từ những người dùng tương tự để dự đoán những sản phẩm mà người dùng mục tiêu có thể thích.
-o Lọc cộng tác dựa trên sản phẩm (Item-Based Collaborative Filtering)
-* Tìm kiếm những sản phảm tương tự mà người dùng đã thích
-* Dựa vào các sản phẩm tương tự để gợi ý cho người dùng.
-* Tính toán: sử dụng Cosine Similarity để tính mức độ tương đồng giữa các người dùng. Mỗi người dùng sẽ là một vector, sử dụng Cosine tính góc giữa các vector người dùng, góc càng nhỏ thì những người dùng đó sẽ có mức tương đồng cao hơn, từ đó chọn ra được các người dùng tương đồng với người dùng mục tiêu. Đây là phương pháp được sử dụng để đo mức độ tương đồng giữa hai vector trong không gian, được tính bằng tích vô hướng của hai vector chia cho tích độ dài của chúng: 
-
-o Trong đó
-* A⋅B là tích vô hướng của hai vector.
-* ||A|| và ||B|| và là độ dài của hai vector.
-7. ĐẶC TẢ YÊU CẦU DỰ ÁN
-7.1. Yêu cầu chức năng
-7.1.1. Khách
-* Tìm kiếm và xem thông tin bài hát, album, nghệ sĩ
-o Tìm kiếm bài hát, album, nghệ sĩ hoặc thể loại âm nhạc.
-o Hiển thị thông tin chi tiết về bài hát, bao gồm lời bài hát, nghệ sĩ, album, số lượt nghe
-* Nghe nhạc trực tuyến
-o Phát nhạc chất lượng cao với khả năng điều chỉnh âm lượng, phát lại, tua nhanh/tua lại.
-o Hỗ trợ lyrics real-time
-* Các chức năng như Tạo và quản lý playlist, Yêu thích và chia sẻ bài hát, Follow nghệ sĩ yêu thích, Thanh toán và đăng ký dịch vụ premium sẽ bắt buộc người dùng phải đăng nhập mới được thực hiện chức năng
-7.1.2. Người dùng
-* Đăng ký và đăng nhập cho người dùng
-o Đăng ký tài khoản mới thông qua email, số điện thoại
-* Tìm kiếm và xem thông tin bài hát, album, nghệ sĩ
-o Tìm kiếm bài hát, album, nghệ sĩ hoặc thể loại âm nhạc.
-o Hiển thị thông tin chi tiết về bài hát, bao gồm lời bài hát, nghệ sĩ, album, số lượt nghe
-* Nghe nhạc trực tuyến 
-o Phát nhạc chất lượng cao với khả năng điều chỉnh âm lượng, phát lại, tua nhanh/tua lại.
-o Hỗ trợ lyrics real-time
-* Tạo và quản lý playlist
-o Cho phép người dùng tạo, chỉnh sửa và xóa playlist cá nhân.
-o Thêm hoặc loại bỏ bài hát khỏi playlist dễ dàng.
-o Quyền truy cập playlist: private, public
-* Yêu thích, bình luận và chia sẻ bài hát
-o Thêm bài hát vào danh sách yêu thích.
-o Bình luận, trả lời, report bình luận
-o Chia sẻ bài hát hoặc playlist qua các mạng xã hội hoặc liên kết trực tiếp. 
-* Follow nghệ sĩ yêu thích 
-o Thêm nghệ sĩ yêu thích vào danh sách follow.
-o Gửi thông báo về các bản nhạc mới hoặc các cập nhật từ nghệ sĩ yêu thích.
-* Thanh toán và đăng ký dịch vụ premium
-o Hỗ trợ các phương thức thanh toán (VNPAY)
-o Cung cấp các tính năng bổ sung cho người dùng premium như không quảng cáo, nghe nhạc offline, nghe nhạc cùng nhau.
-7.1.3. Admin
-* Quản lý nội dung âm nhạc
-o CRUD các bài hát, album, nghệ sĩ.
-* Quản lý người dùng
-o Xem và quản lý thông tin người dùng.
-o Nhận các báo cáo liên quan đến tài khoản người dùng và xem xét khóa tài khoản
-* Phân tích dữ liệu
-o Thống kê lượt nghe, lượt tìm kiếm, lượt theo dõi của bài hát, album, nghệ sĩ
-o Thống kê số lượng người dùng sử dụng
-* Feedback
-o Nhận feedback từ người dùng để cập nhật và cải thiện chất lượng sản phẩm và trải nghiệm người dùng.
-7.2. Yêu cầu phi chức năng
-7.2.1. Hiệu suất
-STTYêu cầu1Có thể cùng lúc nhiều tài khoản truy cập vào hệ thống2Thời gian phản hồi dưới 3 giây7.2.2. Khả năng mở rộng
-STTYêu cầu1Có thể tăng số người truy cập vào hệ thống ít nhất 10 người2Có thể tăng khả năng chịu tải CPU3Cho phép nhiều người dùng thực hiện các thao tác giống nhau trong cùng khoảng thời gian7.2.3. Bảo mật
-STTYêu cầu1Xác thực người dùng bằng mật khẩu, email.2Đăng nhập để thực hiện được các chức năng đúng với từng vai trò, mỗi vai trò có các quyền nhất định.3Các dữ liệu về tài khoản được lưu an toàn trong cơ sở dữ liệu4Đường dẫn của audio được mã háo bằng thuật toán AES5Sử dụng JWT cho việc trao đổi giữa Client và Server7.2.4. Giao diện
-STTYêu cầu1Giao diện đơn giản, dễ sử dụng, thân thiện với người dùng, mang lại trải nghiệm tốt7.2.5. Ngôn ngữ
-STTYêu cầu1Chương trình chỉ sử dụng tiếng Anh7.3. Các chức năng đặc biệt
-7.3.1. Lọc bình luận tiêu cực
-7.3.1.1. Phương pháp triển khai
-a. Tiền xử lý dữ liệu:
-      Trước khi đưa vào mô hình, văn bản thường được xử lý qua các bước như:
-* Làm sạch dữ liệu: Loại bỏ ký tự đặc biệt, số dư thừa, hoặc những thành phần không cần thiết.
-* Token hóa: Chia câu thành các từ hoặc cụm từ nhỏ hơn để dễ dàng xử lý.
-* Chuyển đổi thành số: Mã hóa các từ bằng cách sử dụng các phương pháp như embedding (ví dụ: word2vec, GloVe, hoặc embedding từ các mô hình BERT, Phobert).
-b. Huấn luyện mô hình:
-      Mô hình học sâu, đặc biệt là những mô hình tiên tiến như BERT hoặc Phobert, được sử dụng để phân tích ngữ cảnh và hiểu ý nghĩa của câu. Cụ thể:
-* Mô hình sẽ học ngữ cảnh: Ví dụ, trong câu "Tôi cảm thấy rất hạnh phúc hôm nay", mô hình sẽ nhận ra rằng từ "hạnh phúc" có ý nghĩa tích cực dựa trên mối quan hệ ngữ nghĩa với các từ khác trong câu.
-* Nhận dạng sắc thái cảm xúc: Một câu có thể không chỉ chứa một cảm xúc, và mô hình cần phát hiện sắc thái phức tạp, như câu châm biếm hoặc ẩn dụ.
-7.3.1.2. Triền khai mô hình phân loại comment toxic
-a. Dataset
-* Chuẩn bị 1 file dataset gồm 55000 câu, văn bản được thu thập từ trên Kaggle
-* Các câu hay văn bản được gắn nhãn với 6 đặc trưng
-
-độc hại, cực kì độc hại, tục tĩu, đe dọa, xúc phạm, thù ghét cá nhân
-
-* Làm sạch dữ liệu
-o Loại bỏ cột thừa là cột id
-* Chia tập dữ liệu để huấn luyện gồm 50000 mẫu và tập test gồm 5000 mẫu làm 2 tập là train với test theo tỉ lệ 9:1
-o Tập train: 45000 mẫu
-o Tập validation: 5000 mẫu
-o Tập test: 5000 mẫu 
-b. Huấn luyện
-* Sử dụng batch-size 32 để cho ra được kết quả tốt
-
-     Hình 7 - 1 Thông số huấn luyện mô hình với 8 epochs
-* Kết quả huấn luyện với 8 epochs
-
-
-     Hình 7 - 2 Kiểm tra mô hình bằng các ví dụ
-      Kết quả trả về của các văn bản, câu sẽ là 1 mảng với với các thông số đánh giá theo từng đặc trưng trương ứng là độc hại, cực kì độc hại, tục tĩu, đe dọa, xúc phạm, thù ghét cá nhân  với các thông số từ 0 đến 1.
-      Ta có thể dùng những thông số này để đánh giá mức độ cảm xúc trong câu và dùng nó để lọc đi các comment bị vi phạm tiêu chuẩn cộng đồng của người dùng
-7.3.1.3. Lựa chọn thông số duyệt mức độ vi phạm cho trang web
-* Với 5000 mẫu dữ liệu ở file test, ta xét các mẫu dữ liệu với thông số đánh giá ở đặc trưng là toxic trên mốc 0.5
-
-     Hình 7 - 3 Phân phối mức giá trị cột 'toxic'
-Nhận xét:
-* Mức thông số đánh giá hầu hết đều thuộc mức trên 0.9. Gấp 3 đến 4 lần so với mức đánh giá khác từ 0.5 đến 0.9
-Nguyên nhân:
-* Vì tập dữ liệu huấn luyện chưa được đa dạng và số lượng mẫu huấn luyện vẫn còn ít dẫn đến việc phân loại cảm xúc từ ngữ chưa được tối ưu dẫn đến việc thông số đánh giá chỉ tập trung ở mức trên 0.9.
-Hướng giải quyết
-* Sử dụng mức duyệt là 0.8 để tránh để xót các comment độc hại
-* Thêm chức năng báo cáo bình luận cho người dùng, để quản trị viên có thể kiểm soát và xóa các bình luận độc hại.
-* Sử dụng các bình luận mà người dùng đã báo cáo để mở rộng tập dữ liệu nhắm huấn luyện mô hình để đem lại được kết quả phân biệt tốt nhất
-7.3.2. Nghe nhạc cùng nhau
-7.3.2.1. Mục đích:
-   Chức năng "nghe nhạc cùng nhau" được thiết kế để mang lại trải nghiệm kết nối và tương tác cao hơn giữa người dùng trên nền tảng nghe nhạc trực tuyến. Tính năng này cho phép nhiều người dùng tham gia vào một phòng nghe nhạc chung, nơi tất cả thành viên có thể nghe cùng một bài hát đồng bộ, có thể nhắn trò chuyện với nhau tạo cảm giác như đang nghe nhạc trực tiếp cùng bạn bè hoặc gia đình, bất kể khoảng cách địa lý.
-7.3.2.2. Mô tả chức năng:
-   Người dùng có thể tạo phòng (dành cho premium) và chia sẻ mã mời (mã phòng) cho các người dùng khác vào tham gia
-   Các người dùng tham gia có thể đề xuất nhạc muốn nghe, và chủ phòng (Host) sẽ chọn bài hát sẽ được phát.
-   Việc phát nhạc cũng như trò chuyện trực tiếp sẽ được thực hiện một cách realtime, đồng bộ giữa các người dùng trong phòng, đảm bảo mọi người cùng nghe một thời điểm chính xác, tránh sự chênh lệch gây khó chịu.
-Chức năng này cũng hỗ trợ tạm dừng, tua bài, chuyển bài,... tất cả sẽ đều được cập nhập realtime cho tất cả các người dùng,
-7.3.2.3. Công nghệ sử dụng:
-   Sử dụng Socket.io để để triển khai giao tiếp thời gian thực giữa client-server
-   Socket.IO sử dụng tính năng giao tiếp hai chiều để phát triển các ứng dụng trò chuyện. Các tin nhắn gửi về máy chủ sẽ được gửi trực tiếp cho máy khách mà không cần bất cứ yêu cầu trung gian nào.
-   Socket là chiếc cầu nối đối với thế giới của kết nối mạng, hoạt động dựa trên nguyên lý đơn giản nhưng mạnh mẽ. Tính năng chính của nó là tạo ra một kênh giao tiếp hai chiều giữa client server, một dạng đường truyền ảo qua không gian rộng của Internet, dựa trên hai giao thức chủ chốt là TCP/IP và UDP.
-   Server Nodejs sẽ đóng vai là server chính để xử lý các sự kiện liên quan đến socket.
-
-Hình 7 - 4 Nguyên lý hoạt động Socket trong hệ thống
-7.3.2.4. Quy trình hoạt động
-
-     Hình 7 - 5 Quy trình hoạt động chức năng trong hệ thống
-7.3.3. Đề xuất nhạc cho người dùng
-* Sử dụng Lọc cộng tác dựa trên người dùng để đề xuất nhạc,  dựa trên lượt Like bài hát
-* Triển khai:
-o Thu thập dữ liệu người dùng và các bài hát 
-o Xây dựng ma trận quan hệ giữa người dùng và các bài hát
-* m người dùng U = { u1, u2, ..., um}
-* n bài nhạc I = {i1, i2, ..., in}
-* Ma trận đánh giá R = {ru,i}mxn với ru,i thuộc [0,1] biểu diễn cho việc Like bài hát của người dùng với từng bài nhạc. Giá trị là 1 nếu người dùng đã Like bài nhạc, và giá trị là 0 cho các bài nhạc chưa được Like.
-
-* Sử dụng Cosine để đo mức độ tương đồng từ các người dùng.
-* Chọn ra K người dùng tương tự với người dùng mục tiêu. Từ đó lấy ra các bài hát K người dùng tương tự đã Like mà người dùng mục tiêu chưa Like để đề xuất cho người dùng mục tiêu.
-* Khó khăn: xuất phát nguội (cold start) thiếu hụt dữ liệu để tính toán
-* Đối với người dùng mới thì có dữ liệu về lượt Like của người dùng đó với các bài hát
-* Đối với bài nhạc mới thêm thì cũng chưa có dữ liệu lượt Like từ các người dùng nên khả năng đề xuất được các bài hát này rất là thấp
-* Khắc phục: Sử dụng kèm thêm các gợi ý về nhạc theo từng chủ đề (nhạc mới, nhạc top trong tuần,.. ) ở đầu trang để tăng khả năng tiếp cận đến các người dùng, từ đó cải thiện hơn về dữ liệu ma trận lượt Like người dùng và bài nhạc.
-* Kết quả: Xây dựng thành công phương pháp đề xuất nhạc dựa trên hành vi của người dùng.
-7.3.4. Chế độ nghe nhạc offline
-   Offline Mode trong ứng dụng cho phép người dùng tải nhạc về thiết bị di động và nghe mà không cần kết nối internet. Tính năng này đặc biệt hữu ích đối với người dùng Premium (trả phí), giúp họ tiếp cận nội dung ngay cả khi không có kết nối mạng. Việc triển khai Offline Mode có thể cải thiện trải nghiệm người dùng bằng cách giảm sự phụ thuộc vào kết nối mạng và tránh các vấn đề liên quan đến băng thông.
-7.3.4.1. Yêu cầu kỹ thuật để triển khai Offline Mode
-   Để triển khai Offline Mode trên ứng dụng nghe nhạc, cần đảm bảo các yếu tố sau:
-a. Quản lý quyền truy cập và bảo mật
-   Kiểm tra quyền truy cập: Ứng dụng cần xác thực người dùng Premium thông qua API xác thực, để chỉ người dùng trả phí mới có quyền tải và nghe nhạc offline.
-      b. Xử lý tải xuống và bộ nhớ
-   Quản lý bộ nhớ: Ứng dụng cần kiểm tra dung lượng bộ nhớ của thiết bị và đảm bảo người dùng có đủ không gian để tải nhạc về. Có thể cho phép người dùng chọn chất lượng âm thanh để tiết kiệm dung lượng.
-      c. Tạo hệ thống quản lý nhạc offline
-   Tạo cơ sở dữ liệu lưu trữ thông tin bài hát: Mỗi bài hát tải về sẽ có một bản ghi trong cơ sở dữ liệu.
-   Kiểm tra tính hợp lệ của nhạc offline: Trước khi phát nhạc offline, ứng dụng cần xác thực rằng người dùng đã mua hoặc tải nhạc hợp pháp. Nếu có thay đổi về quyền truy cập, ứng dụng cần thông báo cho người dùng.
-7.3.4.2. Xử lý khi không có kết nối mạng
-   Khi không có kết nối mạng, ứng dụng sẽ kiểm tra trạng thái kết nối và chỉ cho phép phát nhạc từ bộ nhớ cục bộ. Nếu người dùng cố gắng truy cập vào một bài hát chưa tải xuống hoặc không có quyền, ứng dụng sẽ thông báo và yêu cầu kết nối lại.
-7.3.4.3. Tối ưu hóa trải nghiệm người dùng
-   Cập nhật nhạc offline: Cung cấp tính năng đồng bộ các bài hát offline khi người dùng có kết nối internet lại.
-   Quản lý tải xuống: Cho phép người dùng kiểm soát các bài hát đã tải xuống, xóa chúng nếu không cần thiết để tiết kiệm không gian bộ nhớ.
-
-8. 
-PHÂN TÍCH THIẾT KẾ HỆ THỐNG
-   Chức năng chính của hệ thống là nghe nhạc trực tuyến. Với hệ thống nghe nhạc Melodies, người dùng có thể không cần đăng nhập nhưng vẫn có thể gần như được thực hiện đầy đủ các chức năng của trang web và ứng dụng. Khi đăng nhập thì người dùng có thể quản lý được danh sách bài hát yêu thích, quản lý playlist để tạo nên môi trường nghe nhạc phù hợp với cá nhân. Ngoài ra trang web còn dành cho admin được quản lý danh sách người dùng, ca sĩ, bài hát, album và danh sách báo cáo bình luận từ người dùng nhằm có thể lọc hiển thị nội dùng phù hợp, nhằm tạo ra một nơi để người dùng được tận hưởng những trải nghiệm thú vị và lành mạnh khi sử dụng hệ thống nghe nhạc Melodies
-8.1. Ca sử dụng
-8.1.1. Tác nhân
-* Hệ thống phục vụ cho 3 đối tượng người dùng chính là: Khách, Người dùng và Admin
-
-     Hình 8 - 1 Usecase tổng quan của Người dùng, Khách
-
-
-     Hình 8 - 2 Usecase tổng quan của Admin
-
-Tác nhânMô tảKháchTìm kiếm và xem thông tin bài hát, album, nghệ sĩ
-Nghe nhạc trực tuyến
-Các chức năng như Tạo và quản lý playlist, Yêu thích và chia sẻ bài hát, Follow nghệ sĩ yêu thích, Thanh toán và đăng ký dịch vụ premium sẽ bắt buộc người dùng phải đăng nhập mới được thực hiện chức năngNgười dùng đã đăng nhậpTìm kiếm và xem thông tin bài hát, album, nghệ sĩ
-Nghe nhạc trực tuyến
-Quản lý playlist
-Yêu thích và chia sẻ bài hát
-Follow nghệ sĩ yêu thích
-Thanh toán và đăng ký dịch vụ premiumAdminQuản lý tài khoản người dùng
-Quản lý bài hát
-Quản lý nghệ sĩ
-Quản lý album
-Quản lý báo cáo bình luận từ người dùng hoặc từ chức năng lọc bình luận của hệ thống8.1.2. Đặc tả ca sử dụng
-8.1.2.1. Người dùng và khách
-a. Đăng nhập, đăng kí
-Usecase nameĐăng nhậpUsecase IDUSER01Extended Usecase     ActorKháchDescriptionCho phép người dùng được đăng nhập để thực hiện các chức năng như quản lý playlist, bình luận bài hátTriggerNgười dùng chọn nút Login trên màn hình chính giao diệnPre-conditionNgười dùng phải có tài khoản được hệ thống xác nhậnPost-condition(s)Sau khi Login thành công phải chuyển về màn hình chínhBasic Flow* Người dùng chọn nút Login trên màn hình chính giao diện
-* Hệ thống sẽ chuyển hướng sang màn hình đăng nhập với 2 cách đăng nhập là đăng nhập bằng tài khoản hoặc đăng nhập bằng gmail
-* Nếu chọn phương thức đăng nhập bằng tài khoản
-o Nhập username hoặc gmail vào ô [Username or email]
-o Nhập password vào ô [Password]
-o Nhấn nút Login
-* Nếu chọn phương thức đăng nhập bằng gmail
-o Nhấn nút Login by gmail
-* Nếu thông tin của người dùng không chính xác, hệ thống sẽ hiện thông báo lỗi
-* Nếu thông tin của người dùng chính xác, hệ thống kiểm tra tài khoản có bị cấm không. Nếu có thì sẽ thông báo lỗi nếu không thì sẽ hiện thông báo "Login Successfully" và chuyển hướng đến màn hình chínhAlternative Flow* Người dùng nhấn Forgot Password sẽ chuyển sang chức năng quên mật khẩuBảng 8 - 1 Đăng nhập
-Usecase nameĐăng kíUsecase IDUSER01Extended UsecaseActorKháchDescriptionCho phép người dùng được đăng kí tài khoản để thực hiện các chức năng như quản lý playlist, bình luận bài hátTriggerNgười dùng chọn nút Sign Up trên màn hình chính giao diệnPre-conditionNgười dùng phải có emailPost-condition(s)     Basic Flow* Người dùng chọn nút Sign Up trên màn hình chính giao diện
-* Hệ thống sẽ chuyển hướng sang màn hình đăng nhập với 2 cách đăng nhập là đăng nhập bằng tài khoản hoặc đăng nhập bằng gmail
-* Nếu chọn phương thức đăng nhập bằng tài khoản
-o Nhập username vào ô [Username]
-o Nhập email vào ô [Email]
-o Nhập password vào ô [Password]
-o Nhấn confirm password vào ô [Confirm password]
-* Nếu chọn phương thức đăng kí bằng gmail
-o Nhấn nút Signup with Google
-o Hệ thống kiểm tra tài khoản có tồn tại chưa, nếu chưa thì gởi mã OTP và chuyển hướng sang trang nhập OTP để người dùng nhập mã xác nhận để kích hoạt tài khoản giúp đăng kí tài khoản thành côngAlternative FlowBảng 8 - 2 Đăng kí
-b. Nghe nhạc trực tuyến
-Usecase nameNghe nhạc trực tuyếnUsecase IDUSER03Extended UsecaseActorNgười dùngDescriptionNgười dùng được nghe nhạc trực tuyến trên hệ thống mà không cần phải đăng nhậpTriggerNgười dùng chọn vào 1 bài hát bất kì trên hệ thốngPre-conditionPost-condition(s)Sau khi người dùng chọn bài, hệ thống phải hiển thị 1 thành phát nhạc ở dưới mọi màn hìnhBasic Flow* Người dùng chọn 1 bài hát bất kỳ trên hệ thống 
-* Thanh phát nhạc của hệ thống hiện ở dưới mọi màn hình
-* Thanh phát nhạc hiện các thông tin: Tên bài hát, ảnh bài hát và tên ca sĩ cùng với ca sĩ feat cùng nếu có
-* Người dùng được thực hiện các chức năng sau
-o Tạm dừng nhạc
-* Nhấn vào icon Pause thì nhạc dừng
-o Tiếp tục phát nhạc
-* Nhấn vào icon Play để tiếp tục phát nhạc
-o Thêm nhạc playlist
-* Nhấn vào icon Plus để thêm nhạc vào playlist
-* Hệ thống sẽ hiện lên một popup bao gôm dnah sách playlist của người dùng (bắt buộc người dùng phải đăng nhập, nếu không đăng nhập thì hiển thị yêu cầu login)
-* Người dùng nhấn chọn vào playlist thì nhạc được thêm vào playlist
-o Xem thông tin bài hát
-* Nhấn icon Info để xem thông tin bài nhạc cùng ca sĩ
-* Hệ thống hiển thị component ở bên phải màn hình
-o Xem lyric bài hát
-* Nhấn icon Lyric để xem lyric bài hát
-* Nếu hệ thống kiểm tra bài hát có lyric realtime thì hiển thị giao diện dành cho lyric realtime
-* Nếu không thì hệ thống dùng API Genius để fetch lyric
-o Điều chỉnh âm lượng
-* Người dùng nhấn vào icon Speaker để tắt tiếng hoặc bật tiếng
-* Có thể điều chỉnh mức âm thanh trên thanh điều chỉnh âm lượng từ 1 đến 100Alternative Flow* Người dùng được thêm nhạc vào playlist cá nhân của mình     Bảng 8 - 3 Nghe nhạc trực tuyến
-c. Nghe nhạc cùng nhau
-Usecase nameNghe nhạc cùng nhauUsecase IDUSERExtended UsecaseActorNgười dùngDescriptionCho phép người dùng tạo phòng và mời bạn bè vào nghe nhạc cùng, được trò chuyện cùng nhauTriggerNgười dùng chọn Listen Together trên SidebarPre-conditionTài khoản người dùng tạo phòng phải là tài khoản premiumPost-condition(s)Người dùng tạo phòng thành công chuyển hướng đến giao diện phòng nghe nhạcBasic Flow* Người dùng chọn Listen Together trên Sidebar 
-* Hệ thống sẽ chuyển hướng sang màn hình Nghe nhạc cùng nhau với 2 lựa chọn tạo room hoặc nhập ID để join room
-* Nếu tạo room
-o Nếu là tài khoản premium thì được phép tạo phòng và chuyển sang giao diện phòng nghe nhạc
-* Nếu nhập id room để vào phòng
-o Kiểm tra id phòng có tồn tại không, nếu có thì sẽ chuyển hướng người dùng đến phòng đó, còn nếu không có phòng thì hiển thị thông báo lỗiAlternative Flow* Khách trong phòng được tìm kiếm nhạc và đề xuất nhạc để phát. Không được thêm nhạc vào danh sách phát và điều chỉnh nhạc
-* Chủ phòng được thêm nhạc vào danh sách phát, được điều chỉnh nhạc.
-* Thành viên trong phòng được trò chuyện cùng nhau     Bảng 8 - 4 Nghe nhạc cùng nhau
-8.1.2.2. Người dùng và khách
-a. Quản lý ca sĩ
-Use Case NameQuản lý ca sĩUse Case IDAM001Extended Use Cases ActorAdminDescriptionQuản trị viên có thể xem chi tiết thống kê thông tin nghệ sĩ như tên nghệ sĩ, số lượng bài hát, số lượng album, số lượng  follower; thêm mới nghệ sĩ, sửa thông tin nghệ sĩ, xóa nghệ sĩ khỏi hệ thống; TriggerQuản trị viên chọn chức năng "Aritsts" từ giao diện chính.Pre-conditionQuản trị viên  phải đăng nhập vào hệ thống Post- condition(s)Sau khi thực hiện các tác vụ (thêm, sửa, xóa nghệ sĩ), hệ thống cần cập nhật cơ sở dữ liệu sản phẩm và hiển thị thông báo kết quả cho quản trị viên.  Basic Flow* Actor chọn mục "Artists " từ giao diện chính của quản trị viên
-* Hệ thống hiển thị thông tin nghệ sĩ hiện có cho quản trị viên xem
-* Actor tùy chọn một trong các actions sau:
-a. Thêm nghệ sĩ: 
-o Actor nhấn chọn "Add new artist"
-o Actor nhập thông tin nghệ sĩ và xác nhận thêm.
-o Hệ thống lưu thông tin và cập nhật danh sách nghệ sĩ.
-b. Sửa thông tin nghệ sĩ:
-o Actor chỉnh sửa thông tin nghệ sĩ và xác nhận cập nhật. 
-o Hệ thống lưu thông tin nghệ sĩ đã chỉnh sửa và cập nhật danh sách nghệ sĩ.
-c. Xóa sản phẩm:
-* Actor chọn nghệ sĩ cần xóa.
-* Actor xác nhận xóa nghệ sĩ.
-* Hệ thống xóa nghệ sĩ cần xóa khỏi danh sách nghệ sĩ.
-* Sau mỗi thao tác (thêm, sửa, xóa), hệ thống cập nhật danh sách nghệ sĩ và thông báo kết quả cho Actor. 
-Alternative Flow1. Nếu tại bất kỳ điểm nào trong quá trình "Thêm nghệ sĩ" hoặc "Sửa nghệ sĩ", hệ thống gặp lỗi kiểm tra, sẽ hiển thị thông báo lỗi và cho phép actor sửa lại thông tin trước khi tiếp tục. 
-2. Nếu actor hủy việc xóa nghệ sĩ trong quá trình "Xóa nghệ sĩ", hệ thống sẽ không xóa nghệ sĩ đã chọn.Bảng 8 - 5 Quản lý ca sĩ
-b. Quản lý user
-Use Case NameQuản lý userUse Case IDAM002Extended Use Cases ActorAdminDescriptionQuản trị viên có thể xem thông tin người dùng bao gồm thông tin cá nhân, ngày đăng kí tài khoản, loại người dùng, số lượt nghe đã thực hiện, số lần vi phạm quy chuẩn cộng đồng, trạng thái tài khoảnTriggerQuản trị viên chọn chức năng "Users" từ giao diện quản lý chínhPre-conditionQuản trị viên phải đăng nhập vào hệ thốngPost- condition(s)Hệ thống hiển thị đầy đủ, chính xác thông tin về người dùng cho quản trị viên.Basic Flow1. Quản trị viên chọn chức năng "Users" từ giao diện quản lý chính
-2. Hệ thống hiển thị thông tin người dùng cho quản trị viên xem
-3. Quản trị viên xem thông tin chi tiết về từng người dùngAlternative Flow     Bảng 8 - 6 Quản lý user
-c. Quản lý user
-Use case nameQuản lí tracksUse case IDAD003Extended Use CasesActorAdminDescriptionActor quản lí danh sách bài hát của hệ thống. Actor có thể xem danh sách cũng như chi tiết từng bài hát. Actor có thể thêm, sửa, xóa bài hát.TriggerActor đăng nhập vào hệ thống và truy cập vào trang quản lý tracks.Pre-conditionActor phải đăng nhập vào hệ thống và có quyền truy cập vào chức năng này.Post-conditionsSau khi thực hiện các tác vụ (thêm, sửa, xóa bài hát), hệ thống cần cập nhập cơ sở dữ liệu bài hát và hiển thị thông báo kết quả cho actor.Basic Flow* Actor chọn "Tracks" từ Menu Sidebar
-* Hệ thống hiển thị danh sách các bài hát đang có
-* Actor chọn một trong các actions sau:
-a. Thêm nhạc
-o Hệ thống hiển thị form nhập thông tin chi tiết bài hát
-o Actor sau khi nhập thông tin mới cho bài hát, xác nhận lưu.
-o Hệ thống tạo bài hát mới và cập nhập lại danh sách các bài hát.
-b. Cập nhập nhạc:
-o Actor chọn vào bài hát muốn cập nhập thông tin.
-o Hệ thống hiển thị form chứa thông tin hiện tại của bài hát.
-o Actor chỉnh sửa thông tin và xác nhận thay đổi.
-o Hệ thống cập nhập lại thông tin bài hát.
-c. Xóa nhạc:
-o Actor chọn một hoặc nhiều bài hát và xác nhận xóa
-o Hệ thống xóa các bài hát đã chọn và cập nhập lại danh sách bài hát.
-* Sau mỗi thao tác (thêm, sửa, xóa) hệ thống cập nhập danh sách bài hát và thông báo kết quả cho actor. 
-Alternative Flow* Nếu actor không có quyền quản lí tracks thì hệ thống sẽ hiển thị thông báo lỗi và ngăn không cho actor truy cập vào trang này.
-* Nếu gặp lỗi trong quá trình thêm/ cập nhập bài hát, hệ thống hiển thị thông báo lỗi và cho phép actor sửa lại thông tin trước khi tiếp tục.
-* Nếu gặp lỗi trong quá trình xóa bài hát, hệ thống sẽ quay trở lại danh sách bài hát, và không xóa các bài hát đã chọn.     Bảng 8 - 7 Quản lý tracks
-d. Quản lý album
-Use case nameQuản lý albumUse case IDAD004Extended Use CasesActorAdminDescriptionActor quản lí danh sách albums của hệ thống. Actor có thể xem danh sách cũng như chi tiết từng album. Actor có thể thêm, sửa, xóa album.TriggerActor đăng nhập vào hệ thống và truy cập vào trang quản lý albums.Pre-conditionActor phải đăng nhập vào hệ thống và có quyền truy cập vào chức năng này.Post-conditionsSau khi thực hiện các tác vụ (thêm, sửa, xóa album), hệ thống cần cập nhập cơ sở dữ liệu album và hiển thị thông báo kết quả cho actor.Basic Flow* Actor chọn "Albums" từ Menu Sidebar
-* Hệ thống hiển thị danh sách album đang có
-* Actor chọn một trong các actions sau:
-a. Thêm album
-o Hệ thống hiển thị form nhập thông tin chi tiết album.
-o Actor sau khi nhập thông tin mới cho album, xác nhận lưu.
-o Hệ thống tạo album mới và cập nhập lại danh sách album.
-b. Cập album:
-o Actor chọn vào album muốn cập nhập thông tin.
-o Hệ thống hiển thị form chứa thông tin hiện tại của album.
-o Actor chỉnh sửa thông tin và xác nhận thay đổi.
-o Hệ thống cập nhập lại thông tin album.
-c. Xóa album:
-o Actor chọn một hoặc nhiều album và xác nhận xóa
-o Hệ thống xóa các album đã chọn và cập nhập lại danh sách album.
-* Sau mỗi thao tác (thêm, sửa, xóa) hệ thống cập nhập danh sách album và thông báo kết quả cho actor.
-Alternative Flow* Nếu actor không có quyền quản lí albums thì hệ thống sẽ hiển thị thông báo lỗi và ngăn không cho actor truy cập vào trang này.
-* Nếu gặp lỗi trong quá trình thêm/ cập nhập album, hệ thống hiển thị thông báo lỗi và cho phép actor sửa lại thông tin trước khi tiếp tục.
-* Nếu gặp lỗi trong quá trình xóa album, hệ thống sẽ quay trở lại danh sách album, và không xóa các album đã chọn.     Bảng 8 - 8 Quản lý albums
-e. Quản lý báo cáo bình luận
-Use case nameQuản lý báo cáo bình luậnUse case IDAD005Extended Use CasesActorAdminDescriptionActor quản lý danh sách báo cáo bình luận của người dùng và do AI tự động.TriggerActor đăng nhập vào hệ thống và truy cập vào trang quản lý báo cáo.Pre-conditionActor phải đăng nhập vào hệ thống và có quyền truy cập vào chức năng này.Post-conditionsSau khi thực hiện các tác vụ thay đổi, hệ thống cần cập nhập cơ sở dữ liệu bài hát và hiển thị thông báo kết quả cho actor.Basic Flow* Actor chọn "Report" từ Menu Sidebar
-* Hệ thống hiển thị danh sách các báo cáo hiện tại
-* Actor chọn một trong các actions sau:
-o Xác nhận báo cáo và chọn xóa: 
-* Actor chọn báo cáo muốn xem.
-* Xác nhận nếu báo cáo hợp lệ, chọn xóa.
-* Hệ thống ẩn bình luận đã bị báo cáo ra khỏi trình duyệt, và thông báo đến cho người dùng bị báo cáo.
-* Hệ thống cập nhập danh sách báo cáo.
-o Hủy báo cáo:
-* Actor chọn báo cáo muốn xem.
-* Nếu báo cáo không đúng, chọn không xóa.
-* Hệ thống cập nhập danh sách báo cáo.
-* Sau mỗi thao tác thay đổi, hệ thống cập nhập danh sách báo cáo và thông báo kết quả cho actor. 
-Alternative Flow* Nếu actor không có quyền quản lí báo cáo thì hệ thống sẽ hiển thị thông báo lỗi và ngăn không cho actor truy cập vào trang này.
-* Nếu gặp lỗi trong quá trình xác nhận/ hủy báo cáo, hệ thống hiển thị thông báo lỗi.Bảng 8 - 9 Quản lý báo cáo bình luận
-8.2. Kiến trúc hệ thống
-8.2.1. Kiến trúc tổng quan
-* Hệ thống Melodies bao gồm trang web và ứng dụng di động để người dùng dễ dàng truy cập và sử dụng. Người dùng có thể truy cập website sử dụng trình duyệt trên máy tính hoặc thiết bị di động. Để sử dụng ứng dụng di động, người dùng cần cài đặt ứng dụng từ Google Play.
-* Quản trị viên có thể sử dụng website để quản lý hệ thống nghe. Quản trị viên có thể truy cập website sử dụng trình duyệt trên máy tính hoặc thiết bị di động
-8.2.2. Kiến trúc phần mềm
-
-   Hệ thống được xây dựng dựa trên kiến trúc Client-Server, theo mô hình RESTful Web Service. Quá trình xử lí ở phía server sẽ chia ra các tầng riêng biệt giúp  tối ưu hóa tổ chức và quản lý mã nguồn. Dưới đây là mô tả cho từng tầng.
-* Routes/Routers: 
-o Đây là những điểm tiếp nhận yêu cầu từ client. Mỗi route tương ứng với một URL cụ thể và có thể xử lý các phương thức HTTP như GET, POST, PUT, DELETE. Routes sẽ định tuyến yêu cầu đến các controller tương ứng để tiếp tục xử lý.
-* Controllers: 
-o Các controller là nơi xử lý logic cho từng yêu cầu. Chúng nhận dữ liệu từ routes và quyết định cách thức phản hồi, thường bằng cách gọi đến các services để thực hiện các thao tác phức tạp hơn.
-* Services: 
-o Service là nơi chứa các logic nghiệp vụ của ứng dụng, xử lý các yêu cầu từ tầng controller. Nó cung cấp các dịch vụ và chức năng cần thiết để thực hiện các nghiệp vụ của hệ thống. Các service có thể gọi đến các phương thức trong models để truy xuất và cập nhật dữ liệu từ cơ sở dữ liệu.
-* Models: 
-o Phần này đảm nhiệm việc truy cập và tương tác với cơ sở dữ liệu. Các mô hình (models) sẽ định nghĩa cấu trúc dữ liệu và cung cấp các phương thức để thực hiện các truy vấn cơ sở dữ liệu cần thiết.
-* External Stuff
-o External API		
-* Các dịch vụ bên ngoài hoặc dịch vụ bên thứ ba mà ứng dụng tích hợp, cho phép sử dụng chức năng không có sẵn trong hệ thống, như dịch vụ thanh toán. Việc tích hợp với các external APIs làm cho ứng dụng trở nên linh hoạt hơn, tối ưu hơn và tiết kiệm thời gian cho các chức năng mà không cần phải tự phát triển.
-o Database and Storage
-* Hệ thống sử dụng PostgreSQL để lưu trữ cơ sở dữ liệu trên DigitalOcean, đảm bảo hiệu suất và khả năng mở rộng. Ngoài ra, các tệp tin được lưu trữ bằng DigitalOcean Spaces, cung cấp giải pháp lưu trữ an toàn và dễ dàng truy cập cho các tài nguyên tĩnh của ứng dụng.
-8.2.3. Công nghệ sử dụng
-* Front-end: NextJS
-* Back-end: NodeJS, Flask
-* Mobile: React-Native
-* Database: PostgreSQL
-* CI/CD: Github
-* Cloud storage: Spaces Object Storage của DigitalOcean
-* Deployment: Vercel, DigitalOcean
-* Genius API, Vibrant
-8.3. Biểu đồ hoạt động
-
-Hình 8 - 3 Biểu đồ hoạt động đăng kí bằng email, password
-
-
-Hình 8 - 4 Biểu đồ hoạt động đăng nhập
-
-Hình 8 - 5 Biểu đồ hoạt động quên mật khẩu
-
-Hình 8 - 6 Biểu đồ hoạt động tìm kiếm bằng từ khóa
-
-     Hình 8 - 7 Biểu đồ hoạt động phát nhạc trực tuyến
-
-Hình 8 - 8 Biểu đồ hoạt động yêu thích bài hát
-
-Hình 8 - 9 Biểu đồ hoạt động bình luận, trả lời bình luận
-
-Hình 8 - 10 Biểu đồ hoạt động quản lý playlist
-
-Hình 8 - 11 Biểu đồ hoạt động thêm nhạc vào playlist
-
-Hình 8 - 12 Biểu đồ hoạt động thanh toán VNPAY
-
-Hình 8 - 13 Biểu đồ hoạt động nghe nhạc cùng nhau
-8.4. 
-Biểu đồ tuần tự	
-
-Hình 8 - 14 Biểu đồ tuần tự quản lý bài hát
-
-Hình 8 - 15  Biểu đồ tuần tự tìm kiếm bằng từ khóa
-
-Hình 8 - 16 Biểu đồ tuần tự nghe nhạc cùng nhau
-
-Hình 8 - 17 Biểu đồ tuần tự đề xuất nhạc
-
-     Hình 8 - 18 Biểu đồ tuần tự bình luận bài hát
-
-Hình 8 - 19 Biểu đồ tuần tự phát nhạc trực tuyến
-
-8.5. Cơ sở dữ liệu
-
-Hình 8 - 20 Sơ đồ ERD hệ thống
-
-NoTableDescription1SongLưu thông tin bài hát do admin upload hoặc người dùng tự upload.2UserLưu thông tin người dùng, bao gồm thông tin chi tiết, quyền hạn sử dụng và trạng thái tài khoản.3AlbumLưu thông tin album.4ArtistLưu thông tin về các nghệ sĩ.5CommentLưu thông tin comment của các người dùng và bài hát.6DownloadLưu thông tin tải xuống nhạc của các người dùng Premium.7GenreLưu thông tin thể loại của các bài hát.8NotificationsLưu các thông báo người dùng, bao gồm thông báo hệ thống, thay toán, báo cáo,...9ReportLưu thông tin người dùng báo cáo bình luận vi phạm tiêu chuẩn cộng đồng.10PlaylistLưu thông tin playlist của người dùng.11PlaylistSongLưu thông tin các bài hát có trong playlist12AdsLưu thông tin quảng cáo.13SubscriptionPackageLưu thông tin các gói đăng kí Premium.14SubscriptionsLưu thông tin thanh toán của người dùng.15SongPlayHistoryLưu lại lịch sử nghe nhạc của người dùng với các bài hát.16LikeLưu lịch sử yêu thích của người dùng với các bài hát.17FollowLưu thông tin theo dõi nghệ sĩ của người dùng.18AlbumImageLưu ảnh của album.19AlbumSongBảng trung gian giữa Album và Song, lưu các bài hát có trong album.20ArtistSongBảng trung gian giữa Artist và Song, lưu thông tin các nghệ sĩ của bài hát.21ArtistGenreBảng trung gian giữa Artist và Genre, lưu thông tin thể loại của nghệ sĩ.Bảng 8 - 10 Bảng mô tả sơ đồ ERD
-Mô tả chi tiết 1 số bảng chính: 
-* User
-NoColumnTypeNullableUniqueP/K KeyDefaultDescription1idUUIDP KeyID người dùng2roleEnum"User"Role phân biệt ADMIN và USER3usernameVarchar(255)XUsername đăng nhập4emailVarchar(255)Email đăng kí5passwordVarchar(255)Mật khẩu đăng nhập6nameVarchar(255)XTên người dùng7imageVarchar(255)XẢnh người dùng8accountTypeEnum"Free"Loại tài khoản9statusEnum"NORMAL"Trạng thái tài khoản.10createdAtDateTimeNgày tạo11updatedAtDateTimeNgày cập nhập* Song
-NoColumnTypeNullableUniqueP/K KeyDefaultDescription1idUUIDP KeyID bài hát2titleVarchar(255)Tên bài hát3durationIntegerXThời lượng bài hát4lyricVarchar(255)xFile lyric bài hát5filePathAudioVarchar(255)File audio của bài hát6privacyBooleanThể hiện nhạc có công khai không7uploadUserIdUUIDxF KeyBiểu thị nhạc do người dùng upload8releaseDateDateTimexNgày phát hành bài hát9imageVarchar(255)xẢnh bài hát10createdAtDateTimeNgày tạo11updatedAtDateTimeNgày cập nhập* Comment
-NoColumnTypeNullableUniqueP/K KeyDefaultDescription1idUUIDP KeyID bình luận2commentParentIdUUIDXID của bình luận cha.3userIdUUIDF KeyID của người dùng bình luận4songIdUUIDF KeyID của bài hát mà người dùng bình luận5contentTextNội dung mà người dùng bình luận6hideBooleanBình luận có được hiển thị không7createdAtDateTimeNgày tạo8updatedAtDateTimeNgày cập nhập* Report
-NoColumnTypeNullableUniqueP/K KeyDefaultDescription1idUUIDP KeyID báo cáo2userIdUUIDF KeyID người dùng báo cáo3commentIdUUIDF KeyID comment mà người dùng báo cáo4contentTextNội dung báo cáo5statusEnum'PENDING'Trạng thái báo cáo6createdAtDateTimeNgày tạo7updatedAtDateTimeNgày cập nhập1idUUIDP KeyID báo cáo* Notifications
-NoColumnTypeNullableUniqueP/K KeyDefaultDescription1idUUIDP KeyID báo cáo2userIdUUIDF KeyID người dùng nhận thông báo3messageTextNội dung thông báo4isReadBooleanĐã đọc thông báo chưa.5typeEnum"SYSTEM"Loại thông báo6fromUUIDXID nguồn thông báo7createdAtDateTimeNgày tạo8updatedAtDateTimeNgày cập nhập8.6. Thiết kế giao diện
-8.6.1. Web administration
-
-Hình 8 - 21 Màn hình danh sách người dùng
-Giao diệnXem danh sách người dùngMô tảCho phép admin xem danh sách người dùngTruy cậpĐăng nhập vào hệ thống, chọn Users ở SideBar của giao diện trang chủ của adminNội dung giao diệnThành phầnKiểuDữ liệuMô tảTìm kiếmTextboxTextDùng để nhập nội dung tìm kiếm (tên usernam hoặc email)Các hành động trong giao diệnHành độngMô tảThành côngLỗiTìm kiếm người dùngNhập tên username hoặc email người dùng, hệ thống hiển thị danh sách người dùng phù hợp.Hiển thị danh sách người dùng phù hợp với nội dung tìm kiếm. Bảng 8 - 11 Bảng mô tả màn hình danh sách người dùng
-
-Hình 8 - 22 Màn hình danh sách nghệ sĩ
-Giao diệnXem danh sách nghệ sĩMô tảCho phép admin xem danh sách nghệ sĩ, tìm kiếm nghệ sĩ; thêm, sửa, xóa nghệ sĩ; thêm, sửa, xóa thể loạiTruy cậpĐăng nhập vào hệ thống, chọn Aritists ở SideBar của giao diện trang chủ của adminNội dung giao diệnThành phầnKiểuDữ liệuMô tảTìm kiếmTextboxTextDùng để nhập nội dung tìm kiếm (tên nghệ sĩ)Manage GenresButtonDùng để quản lí thể loạiDelete ArtistsButtonXóa các nghệ sĩ được chọnAdd New ArtistsButtonThêm mới nghệ sĩCác hành động trong giao diệnHành độngMô tảThành côngLỗiTìm kiếm nghệ sĩNhập tên nghệ sĩ cần tìm kiếm, hệ thống hiển thị danh sách nghệ sĩ phù hợp.Hiển thị danh sách nghệ sĩ phù hợp với nội dung tìm kiếm. Quản lí thể loạiChọn button "Manage Genres" ở màn hình để thực hiện các hành động quản lí thể loạiHiển thị giao diện quản lí thể loại cho quản trị viênXem chi tiết nghệ sĩClick vào hàng chứa thông tin của nghệ sĩ cần xem chi tiếtHiển thị giao diện chứa thông tin chi tiết nghệ sĩThêm nghệ sĩ mớiChọn button "Add new artist" ở màn hình, hiển thị giao diện chứa các thông tin cần nhập để thêm mới nghệ sĩ, nhập thông tin và nhấn nút "Save Artist"Hiển thị thông báo "Artist added successfully" và hiển thị danh sách nghệ sĩ sau khi thêm thành côngCập nhật nghệ sĩClick vào hàng chưa thông tin nghệ sĩ cần cập nhật, hiển thị giao diện chứa thông tin chi tiết của nghệ sĩ, sửa các thông tin muốn cập nhật và nhấn nút "Update Artist"Hiển thị thông báo "Artist updated successfully" và hiển thị danh sách nghệ sĩ sau khi cập nhật thành côngXóa nghệ sĩClick vào checkbox của các nghệ sĩ muốn xóa, nhấn button "Delete Artists" ở giao diện để thực hiện xóaHiển thị thông báo "Artist Delete Successfully" và hiển thị danh sách nghệ sĩ sau khi xóa thành côngQuản lí thể loạiNhấn button "Manage Genres" ở màn hình, hiển thị giao diện chứa thông tin tất cả thể loại, các button để thực hiện chức năng thêm, sửa, xóa thể loại.Hiển thị giao diện quản lí thể loại và thông báo khi thực hiện các hành động để quản lí thể loại thành côngBảng 8 - 12 Bảng mô tả màn hình danh sách nghệ sĩ
-
-Hình 8 - 23 Màn hình xem danh sách bài hát
-Giao diệnXem danh sách bài hát.Mô tảCho phép admin xem danh sách bài hát; thêm, sửa, xóa bài hát; Sắp xếp bài hát theo tên bài hát, tên album, thời lượng, ngày phát hành,....Truy cậpĐăng nhập vào hệ thống, chọn "Tracks" trên Menu Sidebar.Nội dung giao diệnThành phầnKiểuDữ liệuMô tảThêm bài hátButtonClick vào button "Add new track", hiện modal gồm các trường thông tin cần nhập để thực hiện hành động thêm bài hát.Sửa bài hátClickClick vào bài hát, hiện modal gồm các trường thông tin của bài hát để admin thực hiện chỉnh sửa chi tiết.Xóa bài hátButtonClick chọn vào các ô bên trái bài hát muốn xóa, sau đó nhấn nút "Delete track" để xóa các bài hát.Sắp xếp bài hátButtonClick vào button (track, album,..) để sắp xếp các bài hát.Các hành động trong giao diệnHành độngMô tảThành côngLỗiXem chi tiết bài hátClick vào bài hát cần xem chi tiếtHiển thị modal chứa thông tin chi tiết của bài hát.Thêm bài hátChọn button "Add new track", hiển thị modal chứa các trường thông tin cần nhập, nhập các thông tin cần thiết và nhấn "Save track".Hiển thị thông báo "Track added successfully". Màn hình cập nhập lại danh sách bài hát, hiển thị bài hát mới sau khi thêm Sửa bài hátClick vào bài hát, hiển thị modal chứa dữ liệu hiện tại của bài hát, thực hiện sửa dữ liệu và nhấn  "Update track".Hiển thị thông báo "Track updated successfully". Màn hình cập nhập lại danh sách bài hát, hiển thị bài hát mới sau khi sửa.Xóa bài hátChọn tích vào bài hát muốn xóa, nhấn "Delete track" để xóa nhạc.Hiển thị thông báo "Track deleted successfully". Màn hình cập nhập lại danh sách bài hát sao khi xóa.Sắp xếp bài hátClick vào các button (track, album, duration,...) để sắp xếp các bài hát theo tiêu chí mong muốn.Danh sách bài hát được cập nhập theo thứ tự đã chọn.Bảng 8 - 13 Bảng mô tả màn hình danh sách bài hát
-
-Hình 8 - 24 Màn hình danh sách album
-Giao diệnXem danh sách albumMô tảCho phép admin xem danh sách albums; thêm, sửa, xóa albums; Sắp xếp albums theo tên album, số lượng bài hát, nghệ sĩ chính,....Truy cậpĐăng nhập vào hệ thống, chọn "Albums" trên Menu Sidebar.Nội dung giao diệnThành phầnKiểuDữ liệuMô tảThêm albumButton Click vào button "Add new track", hiện modal gồm các trường thông tin cần nhập để thực hiện hành động thêm bài hát.Sửa albumClickClick vào bài hát, hiện modal gồm các trường thông tin của bài hát để admin thực hiện chỉnh sửa chi tiết.Xóa albumButtonClick chọn vào các ô bên trái bài hát muốn xóa, sau đó nhấn nút "Delete track" để xóa các bài hát.Sắp xếp albumButtonClick vào button (track, album,..) để sắp xếp các bài hát.Các hành động trong giao diệnHành độngMô tảThành côngLỗiXem chi tiết albumClick vào album cần xem chi tiếtHiển thị modal chứa thông tin chi tiết của album.Thêm albumChọn button "Add new Album", hiển thị modal chứa các trường thông tin cần nhập, nhập các thông tin cần thiết và nhấn "Save Album".Hiển thị thông báo "Album added successfully". Màn hình cập nhập lại danh sách album. hiển thị album mới sau khi thêm.Sửa albumClick vào album, hiển thị modal chứa dữ liệu hiện tại của album, thực hiện sửa dữ liệu và nhấn  "Update Album".Hiển thị thông báo "Album updated successfully". Màn hình cập nhập lại danh sách album. hiển thị album mới sau khi sửa.Xóa bài hátChọn tích vào bài hát muốn xóa, nhấn "Delete track" để xóa nhạc.Hiển thị thông báo "Track deleted successfully". Màn hình cập nhập lại danh sách album sau khi xóa.Sắp xếp bài hátClick vào các button (track, album, duration,...) để sắp xếp các bài hát theo tiêu chí mong muốn.Danh sách album được cập nhập theo thứ tự đã chọn.Bảng 8 - 14 Bảng mô tả màn hình danh sách album
-8.6.2. Web end-user
-
-Hình 8 - 25 Màn hình đăng nhập
-Giao diệnĐăng nhậpMô tảCho phép người dùng đăng nhập vào hệ thống bằng tài khoản cá nhân qua email/password hoặc tài khoản Google. Hỗ trợ tính năng khôi phục mật khẩu và đăng ký tài khoản mới.Truy cậpTruy cập qua đường dẫn /login hoặc chọn nút "Login" trên trang chính.Nội dung giao diệnThành phầnKiểuDữ liệuMô tảUsername or EmailInputTextÔ nhập liệu cho người dùng nhập email hoặc tên đăng nhập.PasswordInputPasswordÔ nhập liệu dành cho mật khẩu.LoginButtonActionNút để gửi thông tin đăng nhập, kiểm tra tính hợp lệ của tài khoản/mật khẩu.Forgot PasswordHyperlinkRedirect URLLiên kết đến trang khôi phục mật khẩu.Các hành động trong giao diệnHành độngMô tảThành côngLỗiNhập username/passwordNgười dùng nhập thông tin vào các ô nhập liệu.Nhấn nút "Login"Kiểm tra tính hợp lệ và xác thực tài khoản với hệ thống.Hiển thị thông báo "Login successful", chuyển hướng đến dashboard chính của hệ thống.Hiển thị lỗi "Invalid username or password" nếu thông tin không hợp lệ hoặc sai thông tin.Nhấn vào "Forgot Password"Chuyển hướng đến trang khôi phục mật khẩu.Mở trang mới để thực hiện yêu cầu đặt lại mật khẩu.Nhấn vào "Login"Chuyển hướng đến trang đăng ký tài khoản mới.Mở trang đăng ký.Nhấn nút "Login With Google"Xác thực tài khoản Google của người dùng.Hiển thị thông báo "Login successful" và chuyển đến dashboard chính.Hiển thị lỗi nếu tài khoản Google không được liên kết hoặc xảy ra sự cố khi đăng nhập.Bảng 8 - 15 Bảng mô tả màn hình đăng nhập
-
-Hình 8 - 26 Màn hình đăng kí
-Giao diệnĐăng ký tài khoảnMô tảGiao diện cho phép người dùng tạo tài khoản mới bằng cách nhập thông tin cá nhân như username, email, và mật khẩu. Hỗ trợ đồng ý điều khoản và chính sách, cùng với tùy chọn đăng ký bằng tài khoản Google.Truy cậpTruy cập qua đường dẫn /signup hoặc nhấn nút "Sign Up" Nội dung giao diệnThành phầnKiểuDữ liệuMô tảUsernameInputTextÔ nhập liệu cho tên đăng nhập của người dùng.EmailInputEmailÔ nhập liệu cho địa chỉ email của người dùng.PasswordInputPasswordÔ nhập liệu dành cho mật khẩu.Confirm PasswordInputPasswordÔ nhập lại mật khẩu để xác minh.Terms and Privacy PoliciesCheckboxBooleanYêu cầu người dùng đồng ý với điều khoản và chính sách bảo mật trước khi đăng ký.Sign UpButtonActionNút gửi thông tin để tạo tài khoản mới.LoginHyperlinkRedirect URLChuyển hướng đến giao diện đăng nhập.Login With GoogleButtonActionĐăng ký nhanh bằng tài khoản Google.Các hành động trong giao diệnHành độngMô tảThành côngLỗiNhập thông tin đăng kýNgười dùng nhập username, email, mật khẩu, và xác nhận mật khẩu.Hiển thị lỗi "Thông tin không được để trống" nếu các trường bắt buộc chưa được nhập.Đồng ý điều khoảnNgười dùng tick vào checkbox đồng ý với điều khoản và chính sách bảo mật.Hiển thị lỗi "Bạn cần đồng ý với điều khoản và chính sách trước khi đăng ký".Nhấn nút "Sign Up"Gửi thông tin đăng ký lên hệ thống để tạo tài khoản.Hiển thị thông báo "Account created successfully", chuyển hướng đến giao diện xác thực OTP.Hiển thị lỗi "User already exist"Nhấn vào "Login"Chuyển hướng người dùng đến giao diện đăng nhập.Hiển thị giao diện đăng nhập.Nhấn nút "Login With Google"Xác thực tài khoản Google để đăng ký.Hiển thị thông báo "Account created successfully", chuyển hướng đến giao diện chính.Hiển thị lỗi nếu xảy ra sự cố kết nối hoặc tài khoản Google đã liên kết với hệ thống khác.Bảng 8 - 16 Bảng mô tả màn hình đăng kí
-
-Hình 8 - 27 Màn hình nhập OTP
-Giao diệnXác thực OTPMô tảGiao diện yêu cầu người dùng nhập mã OTP được gửi qua email để xác thực tài khoản đăng ký. Có thể yêu cầu gửi lại mã OTP nếu không nhận được hoặc quay về màn hình đăng nhập.Truy cậpHiển thị sau khi người dùng nhấn nút "Sign Up" và hoàn tất thông tin đăng ký.Nội dung giao diệnThành phầnKiểuDữ liệuMô tảBack to loginHyperlinkRedirect URLChuyển về giao diện "Login" nếu muốn thoát khỏi bước xác thực.Verify OTPTextTiêu đề giao diện, thể hiện chức năng xác thực OTP.OTP Input FieldsInput FieldsNumeric (6 ký tự)Các ô nhập mã OTP, thường yêu cầu nhập đúng 6 chữ số.SubmitButtonActionNút gửi mã OTP đã nhập để xác thực với hệ thống.ResendHyperlinkActionCho phép người dùng yêu cầu gửi lại mã OTP nếu không nhận được email.Countdown TimerTextTimeHiển thị thời gian hiệu lực còn lại của mã OTP (ví dụ: 1:53 phút).Các hành động trong giao diệnHành độngMô tảThành côngLỗiNhập mã OTPNgười dùng nhập mã OTP vào các ô tương ứng.Hiển thị lỗi "OTP không được để trống" nếu chưa nhập mã.Nhấn nút "Submit"Xác thực mã OTP đã nhập với hệ thống.Hiển thị thông báo "Account verified successfully", chuyển hướng đến giao diện chính.Hiển thị lỗi "Invalid OTP" nếu mã OTP không đúng hoặc đã hết hạn.Nhấn "Resend"Yêu cầu hệ thống gửi lại mã OTP qua email của người dùng.Hiển thị thông báo "OTP has been resent to your email".Hiển thị lỗi "Unable to send OTP" nếu có sự cố khi gửi lại mã OTP.Nhấn "Back to login"Chuyển hướng người dùng về giao diện đăng nhập.Hiển thị giao diện đăng nhập.Countdown Timer hết hạnThời gian hiệu lực của mã OTP hết.Hiển thị thông báo "OTP has expired", yêu cầu người dùng nhấn "Resend" để nhận mã mới.Bảng 8 - 17 Bảng mô tả màn hình nhập OTP
-
-Hình 8 - 28 Màn hình kết quả tìm kiếm
-Giao diệnTìm kiếm Mô tảGiao diện hiển thị kết quả tìm kiếm liên quan đến từ khóa người dùng nhập vào. Bao gồm thông tin về nghệ sĩ, bài hát, album, playlist, và các nội dung liên quan.Truy cậpNgười dùng nhập từ khóa vào thanh tìm kiếm trên màn hìnhNội dung giao diệnThành phầnKiểuDữ liệuMô tảThanh tìm kiếmInputTextCho phép người dùng nhập từ khóa tìm kiếm như tên nghệ sĩ, bài hát, album, playlist.Bộ lọc tìm kiếmTabCác loại nội dungLọc kết quả theo các danh mục như Bài hát, Playlist, Album, Nghệ sĩ.Kết quả hàng đầuSectionNghệ sĩ/Bài hátHiển thị nghệ sĩ hoặc bài hát khớp với từ khóa tìm kiếm nhất.Các bài hátSectionDanh sách bài hátHiển thị danh sách bài hát liên quan đến từ khóa.AlbumSectionDanh sách albumDanh sách các album phù hợp với từ khóa.PlaylistSectionDanh sách playlistCác playlist liên quan đến từ khóa tìm kiếm.Các hành động trong giao diệnHành độngMô tảThành côngLỗiNhập từ khóa vào thanh tìm kiếmNgười dùng nhập tên bài hát, nghệ sĩ, hoặc album cần tìm.Hiển thị kết quả tìm kiếm phù hợp trong các danh mục như nghệ sĩ, bài hát, album, playlist.Hiển thị thông báo "Không tìm thấy kết quả phù hợp" nếu không có dữ liệu khớp.Nhấn vào tên nghệ sĩĐiều hướng người dùng đến trang chi tiết của nghệ sĩ.Hiển thị giao diện chi tiết của nghệ sĩ (thông tin, bài hát, album).Chọn bài hát từ danh sáchNgười dùng click vào một bài hát để phát.Bài hát được phát trong trình phát nhạc.Hiển thị lỗi "Không thể phát bài hát" nếu có sự cố kỹ thuật.Lọc kết quảNgười dùng chọn tab (bài hát, album, playlist...) để thu hẹp kết quả tìm kiếm.Hiển thị danh sách phù hợp với bộ lọc đã chọn.Xem album hoặc playlistNgười dùng click vào album hoặc playlist trong danh sách kết quả.Hiển thị giao diện chi tiết của album hoặc playlist, bao gồm danh sách bài hát.Bảng 8 - 18 Bảng mô tả màn hình kết quả tìm kiếm
-
-Hình 8 - 29 Màn hình danh sách playlist và chi tiết playlist
-Giao diệnQuản lý playlist Mô tảCho phép người dùng quản lý playlist cá nhânTruy cậpNgười dùng chọn My playlist trên SidebarNội dung giao diệnThành phầnKiểuDữ liệuMô tảDanh sách playlistThanh tìm kiếmThanh tìm kiếmThanh tìm kiếmThanh tìm kiếmDanh sách playlistDanh sách playlistDanh sách playlistDanh sách playlistIcon PlusIcon PlusIcon PlusIcon PlusDanh sách playlistDanh sách playlistDanh sách playlistDanh sách playlistPlaylistSectionDanh sách playlistCác playlist liên quan đến từ khóa tìm kiếm.Màn hình chi tiết playlistBannerSectionCác loại nội dungHiển thị ảnh, tên, mô tả playlistIcon MoreButtonActionHiển thị các mục Add to waitinglist, Edit details playlist, Delete playlistDanh sách các bài trong playlistSectionDanh sách bài hátDanh sách bài hát nằm trong playlistThanh tìm kiếm bài hát  InputTextCho phép người dùng nhập từ khóa tìm kiếm bài hátDanh sách các bài hát tìm kiếm đượcSectionDanh sách bài hátDanh sách các bài hát có chứa từ khóa được nhập vàoCác hành động trong giao diệnHành độngMô tảThành côngLỗiNgười dùng chọn My playlist trên SidebarĐối với người dùng chưa đăng nhập thì hiển thị yêu cầu login còn nếu đã đăng nhập thì hiển thị danh sách playlist của người dùngĐối với người dùng chưa đăng nhập thì popup một yêu cầu login còn nếu đã đăng nhập thì section danh sách playlist của người dùng được trượt lên che đi phần Sidebar và hiển thị danh sách playlist của người dùng đóNhấn vào Icon PlusTạo thêm playlistHiển thị thêm playlist mới lên đầu danh sách với tên My playlist + số lượng playlist hiện có.
-Chuyển hướng sang màn hình chi tiết playlist vừa được tạoNhấn vào Icon More và chọn mục Edit playlistCập nhật thông tin playlist đang hiển thị trên màn hìnhPopup 1 component để người dùng cập nhật thông tin playlist gồm các thông tin ảnh, tên, mô tả
-Bấm Save thì playlist tắt popup và hiển thị thông tin mới lên màn hìnhHiển thị lỗi "Name cannot be blank" khi người dùng không nhập vào ô NameNhấn vào Icon More và chọn mục Delete playlistXóa thông tin playlist đang hiển thị trên màn hìnhPopup component để người dùng xác nhận
-Bấm Delete thì màn hình chuyển hướng về trang chính và cập nhật lại danh sách playlistNhân vào playlist trên danh sách playlistNgười dùng click vào playlist để xem thông tin playlist đóMàn hình chuyển hướng sang giao diện chi tiết playlistNgười dùng chọn My playlist trên SidebarĐối với người dùng chưa đăng nhập thì hiển thị yêu cầu login còn nếu đã đăng nhập thì hiển thị danh sách playlist của người dùngĐối với người dùng chưa đăng nhập thì popup một yêu cầu login còn nếu đã đăng nhập thì section danh sách playlist của người dùng được trượt lên che đi phần Sidebar và hiển thị danh sách playlist của người dùng đóBảng 8 - 19 Bảng mô tả màn hình danh sách playlist và chi tiết playlist
-
-Hình 8 - 30 Màn hình chi tiết nghệ sĩ
-Giao diệnChi tiết nghệ sĩ Mô tảCho phép người xem chi tiết nghệ sĩ, xem danh sách bài hát của nghệ sĩ đó và danh sách album của nghệ sĩTruy cậpNgười dùng click vào tên nghệ sĩ được hiển thị ở các trang như trang thông tin bài hát, những phần có hiển thị tên nghệ sĩNội dung giao diệnThành phầnKiểuDữ liệuMô tảBannerSectionCác loại nội dungHiển thị ảnh, tên nghệ sĩ, nút follow và số lượng người follow nghệ sĩ đóDanh sách Popular SongSectionDanh sách bài hátDanh sách bài hát nổi tiếng của nghệ sĩDanh sách album nghệ sĩSectionDanh sách bài hátDanh sách bài hát nổi tiếng của nghệ sĩCác hành động trong giao diệnHành độngMô tảThành côngLỗiNgười dùng chọn vào tên nghệ sĩXem được thông tin về nghệ sĩ đóMàn hình chuyển sang giao diện thông tin của nghệ sĩ. Icon follow trên Banner của nghệ sĩ phải hiển thị đúng theo trạng thái follow cuar người dùng đối với nghệ sĩ
-Phải hiển thị được danh sách các bài hát nổi tiếng của nghệ sĩ
-Danh sách album của nghệ sĩ đóNhấn vào Icon Heart trên BannerTheo dõi hoặc bỏ theo dõi nghệ sĩTrạng thái icon chuyển đổi đúng với trạng thái follow của người dùng đối với nghệ sĩ đóNhấn vào bài hát trên danh sách Popular SongsHệ thống phải phát bài hát được chọn, và thêm cả danh sách đó vào danh sách chờHiển thị thanh phát nhạc và tự động phát bài hát được chọn
-Danh sách chờ phải hiển thị đúng danh sách Popular SongNhấn vào album trên danh sách album của nghệ sĩXem thông tin về album được chọnHệ thống chuyển hướng sang trang chi tiết album được chọn     Bảng 8 - 20 Bảng mô tả màn hình chi tiết nghệ sĩ
-
-Hình 8 - 31 Màn hình chi tiết album
-Giao diệnChi tiết album Mô tảCho phép người xem chi tiết album, xem danh sách bài hát của nghệ sĩ đó, các album khác của nghệ sĩTruy cậpNgười dùng click vào album tại danh sách album ở màn hình thông tin ca sĩNội dung giao diệnThành phầnKiểuDữ liệuMô tảBannerSectionCác loại nội dungHiển thị ảnh, tên album, tên ca sĩ, số lượng bài hát, thời lượng tổng, số lượt ngheIcon PlayButtonActionPhát nhạc ở danh sách bài hátIcon MoreButtonActionHiển thị các mục Add to waitinglistDanh sách bài hát của albumSectionDanh sách bài hátDanh sách bài hát của albumDanh sách album khác nghệ sĩSectionDanh sách albumDanh sách album khác của nghệ sĩCác hành động trong giao diệnHành độngMô tảThành côngLỗiNgười dùng chọn vào album tại danh sách album ở màn hình thông tin ca sĩXem được thông tin về album đóMàn hình chuyển sang giao diện thông tin của album. 
-Phải hiển thị được danh sách các bài hát của album
-Danh sách album khác của nghệ sĩ đóNhấn vào Icon PlayPhát nhạc ở danh sách bài hát của albumHiển thị thanh phát nhạc và tự động phát bài hát đầu tiên
-Danh sách chờ phải hiển thị đúng danh sách bài hát của album đóNhấn vào Icon More và chọn mục Add to waiting listThêm danh sách bài hát này vào danh sách phátThêm danh sách bài hát này vào danh sách phátNhấn vào bài hát trên danh sách Popular SongsHệ thống phải phát bài hát được chọn, và thêm cả danh sách đó vào danh sách chờHiển thị thanh phát nhạc và tự động phát bài hát được chọn
-Danh sách chờ phải hiển thị đúng danh sách Popular SongBảng 8 - 21 Bảng mô tả màn hình chi tiết album
-
-Hình 8 - 32 Màn hình chi tiết bài hát
-Giao diệnChi tiết bài hátMô tảCho phép người xem chi tiết bài hát, bình luận từ người dùng khác về bài hátTruy cậpNgười dùng click vào bài hát tại danh sách bài hát được hiển thị ở các màn hìnhNội dung giao diệnThành phầnKiểuDữ liệuMô tảBannerSectionCác loại nội dungHiển thị ảnh, tên bài hát, danh sách ca sĩ, album của bài hát, năm ra mắt, thời lượng và số lượt ngheIcon PlayButtonActionPhát nhạc ở danh sách bài hátIcon MoreButtonActionHiển thị các mục Add to waitinglistSection commentSectionCác loại nội dungHiển thị danh sách bình luận bài hátThanh nhập bình luậnInputTextÔ nhập liệu cho người dùng bình luậnIcon SendbuttonAcitonNút để người dùng gởi bình luậnDanh sách nghệ sĩ Fan cũng yêu thíchSectionDanh sách bài hátDanh sách nghệ sĩ cùng thể loại với nghệ sĩ hát chính ca khúcDanh sách bài hát khác nghệ sĩSectionDanh sách bài hátDanh sách bài hát khác của nghệ sĩCác hành động trong giao diệnHành độngMô tảThành côngLỗiNgười dùng click vào bài hát tại danh sách bài hát được hiển thị ở các màn hìnhXem được chi tiết về bài hát đóMàn hình chuyển sang giao diện thông tin của bài hát. 
-Phải hiển thị được danh sách bình luận của mọi người dùng
-Danh sách bài hát khác của nghệ sĩ đó
-Danh sách nghệ sĩ cùng thể loại với nghệ sĩ hát chính ca khúcNhấn vào Icon PlayPhát bài hátHiển thị thanh phát nhạc và tự động phát bài hátNhấn vào Icon More và chọn mục Add to waiting listThêm bài hát này vào danh sách phátThêm bài hát này vào danh sách phátNgười dùng nhân Icon SendĐăng bình luậnBình luận sẽ được hiển thị lên đầu danh sáchHiển thị thông báo lỗi "" vì bình luận bị AI đánh giá vi phạm tiêu chuẩn cộng đồngNhấn vào bài hát trên danh sách Other SongsHệ thống phải phát bài hát được chọnHiển thị thanh phát nhạc và tự động phát bài hát được chọnNhấn vào artist trên danh sách Fan also likeXem thông tin nghê sĩ được chọnHệ thống chuyển hướng sang trang chi tiết nghệ sĩ được chọnBảng 8 - 22 Bảng mô tả màn hình chi tiết bài hát
-8.6.3. App end-user
-
-Hình 8 - 33 Màn hình quản lý tài khoản
-Giao diệnQuản lý tài khoảnMô tảGiao diện cho phép người dùng quản lý các thông tin cá nhân, đăng ký gói dịch vụ, và lịch sử thanh toán.Truy cậpSau khi đăng nhập, người dùng nhấn vào ảnh đại diện hoặc biểu tượng tài khoản để mở menu quản lý tài khoản.Nội dung giao diệnThành phầnKiểuDữ liệuMô tảThành phầnKiểuDữ liệuMô tảAvatarImage/ButtonFile ảnhHiển thị ảnh đại diện của người dùng.LoginButtonActionHiển thị nếu người dùng chưa đăng nhập, chuyển đến giao diện đăng nhập khi được nhấn.Chỉnh sửa hồ sơNavigationRedirectChuyển đến giao diện chỉnh sửa thông tin cá nhân.Các gói có sẵnNavigationRedirectHiển thị danh sách các gói đăng ký có thể lựa chọn.Quản lý gói đăng kýNavigationRedirectHiển thị danh sách gói dịch vụ mà người dùng đã đăng ký.Hủy gói đăng kýNavigationRedirectCung cấp tính năng hủy gói dịch vụ đã đăng ký.Lịch sử đặt hàngNavigationRedirectHiển thị danh sách lịch sử giao dịch và thanh toán của người dùng.Đổi mật khẩuNavigationRedirectChuyển đến giao diện đổi mật khẩu.Cài đặt thông báoNavigationRedirectChuyển đến giao diện thông báo.Đăng xuấtButtonActionĐăng xuất khi nhấnCác hành động trong giao diệnHành độngMô tảThành côngLỗiBảng 8 - 23 Bảng mô tả màn hình quản lý tài khoản
-
-Hình 8 - 34 Màn hình chỉnh sửa hồ sơ
-Giao diệnChỉnh sửa hồ sơMô tảGiao diện cho phép người dùng quản lý các thông tin cá nhân, ảnh đại diệnTruy cậpNội dung giao diệnThành phầnKiểuDữ liệuMô tảẢnh đại diệnImage/ButtonFile ảnhNgười dùng có thể nhấn để thay đổi ảnh đại diện.TênInputTextTrường nhập liệu để người dùng chỉnh sửa tên cá nhân.UsernameInputTextHiển thị username của người dùng, không thể chỉnh sửa (editable={false}).EmailInputEmailHiển thị email đã đăng ký của người dùng, không thể chỉnh sửa (editable={false}).LưuButtonActionLưu thông tin chỉnh sửa.HủyButtonActionHủy thao tác và quay lại giao diện trước đó.Các hành động trong giao diệnHành độngMô tảThành côngLỗiNhấn vào ảnh đại diệnNgười dùng nhấn vào ảnh để thay đổi hình ảnh cá nhân.Ảnh đại diện được thay đổi sau khi tải lên thành công.Hiển thị lỗi "Tải ảnh thất bại" nếu có sự cố khi tải lên.Chỉnh sửa trường "Tên"Người dùng chỉnh sửa tên và nhấn "Lưu".Tên được cập nhật thành công và hiển thị trên giao diện.Hiển thị lỗi "Tên không hợp lệ" nếu dữ liệu nhập vào không đúng định dạng.Cố gắng chỉnh sửa "Username"Người dùng cố gắng chỉnh sửa trường "Username".Trường không cho phép chỉnh sửa, chỉ hiển thị thông tin.Cố gắng chỉnh sửa "Email"Người dùng cố gắng chỉnh sửa trường "Email".Trường không cho phép chỉnh sửa, chỉ hiển thị thông tin.Nhấn "Hủy"Người dùng nhấn nút "Hủy" để hủy thao tác.Quay lại giao diện trước đó mà không lưu bất kỳ thay đổi nào.Bảng 8 - 24 Bảng mô tả mản hình chỉnh sửa hồ sơ
-
-Hình 8 - 35 Màn hình trình phát nhạc
-Giao diệnTrình phát nhạcMô tảGiao diện cho phép người dùng nghe nhạc, xem lời bài hát, điều chỉnh phát nhạc, và tương tác thông qua bình luận.Truy cậpNgười dùng chọn bài hát từ danh sách và được chuyển đến giao diện trình phát nhạc.Nội dung giao diệnThành phầnKiểuDữ liệuMô tảQuay vềButtonActionĐiều hướng người dùng quay lại giao diện trước đó.CommentsButtonActionMở giao diện bình luận, hiển thị danh sách bình luận và cho phép người dùng thêm bình luận.Ảnh bìa albumImageFile ảnhHiển thị ảnh bìa album của bài hát đang phát.Tên bài hátTextStringHiển thị tên bài hát đang phát.Tên nghệ sĩTextStringHiển thị tên nghệ sĩ biểu diễn bài hát.Tabs "Song" và "Lyrics"TabsActionChuyển đổi giữa chế độ phát nhạc và hiển thị lời bài hát.Thanh tiến trình bài hátSliderTimeHiển thị tiến trình phát bài hát và cho phép người dùng tua đến vị trí bất kỳ.Thời gian hiện tại và tổngTextTimeHiển thị thời gian đã phát và tổng thời gian của bài hát.RepeatButtonActionBật hoặc tắt chế độ phát lại bài hát.PreviousButtonActionPhát bài hát trước trong danh sách phát.Pause/PlayButtonActionTạm dừng hoặc phát tiếp bài hát.NextButtonActionPhát bài hát kế tiếp trong danh sách phát.TracklistButtonActionHiển thị danh sách bài hát trong danh sách phát hiện tại.DownloadButtonActionCho phép người dùng tải bài hát đang phát xuống thiết bị.Add Song to PlaylistButtonActionThêm nhạc vào playlist cá nhânGiao diệnGiao diện bình luậnNội dung giao diệnThành phầnKiểuDữ liệuMô tảDanh sách bình luậnListString, AvatarHiển thị các bình luận từ người dùng khác, gồm nội dung, thời gian, và avatar.Write a commentInputTextCho phép người dùng nhập bình luận.PostButtonActionGửi bình luận lên hệ thống.CloseButtonActionĐóng giao diện bình luận và quay về giao diện phát nhạc.Các hành động trong giao diệnHành độngMô tảThành côngLỗiQuay vềNgười dùng quay về giao diện trước đó.Giao diện trước đó hiển thị lại.CommentsMở danh sách bình luận của bài hát.Giao diện bình luận hiển thị, cho phép người dùng đọc và thêm bình luận.RepeatBật/tắt chế độ lặp bài hát.Chế độ lặp được kích hoạt hoặc tắt.PreviousPhát bài hát trước.Bài hát trước đó trong danh sách phát được phát.Pause/PlayTạm dừng hoặc tiếp tục phát nhạc.Nhạc được tạm dừng hoặc phát tiếp.NextPhát bài hát tiếp theo.Bài hát tiếp theo trong danh sách phát được phát.TracklistHiển thị danh sách bài hát trong danh sách phát.Danh sách bài hát hiện tại hiển thị.DownloadTải bài hát xuống thiết bị.Bài hát được tải thành công.Hiển thị lỗi "Không thể tải bài hát" nếu có sự cố.Nhập bình luận và nhấn "Post"Thêm bình luận mới vào danh sách bình luận.Bình luận được gửi và hiển thị trong danh sách.Hiển thị lỗi "Không thể gửi bình luận" nếu bình luận không được hệ thống duyệt vì vi phạm tiêu chuẩn cộng đồngBảng 8 - 25 Bảng mô tả màn hình trình phát nhạc
-8.7. Đặc tả API
-8.7.1. Api user upload nhạc (dành cho premium)
-* Mô tả: Api cho phép người dùng premium upload nhạc lên hệ thống.
-* Request:
-o Endpoint: /api/user/uploadSong
-o HTTP method: POST
-
-o Headers:
-* Authorization: Bearer token required
-- Format: Bearer <access_token>
-- Example: Bearer eyJhbGciOiJIUzI1NiIs...
-* Request Body:	
-NameRequiredTypeRulesDescriptiontitlexStringTên bài hátreleaseDatexDateNgày xuất bảnlyricBinaryFile lyric của bài hátfilePathAudioxBinaryFile audio của bài hátimageBinaryFile ảnh của bài hát8.7.2. Api user upload nhạc (dành cho premium)
-* Mô tả: Api lấy danh sách playlist của người dùng, hỗ trợ phân trang, phân loại.
-* Request:
-o Endpoint: /api/user/playlist
-o HTTP method: GET
-
-o Headers:
-* Authorization: Bearer token required
-- Format: Bearer <access_token>
-- Example: Bearer eyJhbGciOiJIUzI1NiIs...
-* Query params:
-NameRequiredTypeRulesDescriptionidxStringID bài hát8.7.3. Api get bài hát
-* Mô tả: Api lấy thông tin chi tiết của 1 bài hát
-* Request:
-o Endpoint: /api/user/song/{id}
-o HTTP method: GET
-
-o Headers:
-* Query params:
-NameRequiredTypeRulesDescriptionidxStringID bài hátNameRequiredTypeRulesDescription8.7.4. Api report bài hát
-* Mô tả: Api cho phép người dùng báo cáo các bình luận vi phạm tiêu chuẩn cộng đồng.
-* Request:
-o Endpoint: /api/user/actions/report
-o HTTP method: POST
-
-o Headers:
-* Authorization: Bearer token required
-- Format: Bearer <access_token>
-- Example: Bearer eyJhbGciOiJIUzI1NiIs...
-* Query params:
-NameRequiredTypeRulesDescriptioncommentIdxStringID bài hátcontentxStringNội dung của báo cáo8.8. Kiểm thử
-FeatureThêm bài hát mới (Admin)Test requirementTest API Add new trackNumber of TCs5Testing RoundPassedFailedPendingN/ARound 1500IDMô tảTiến trìnhKết quả mong muốnĐiều kiệnNgàyKết quảTesterNoteTest endpoint API1Test trường hợp sai endpoint APINhập sai endpoint APILỗi 404: Resource not foundCó thể kết nối server21/12/2024passHoàng Thị Hồng ThắmTest kiểu dữ liệu tham số "Title"2Test trường hợp sai kiểu dữ liệu tham số  "Title"Nhập sai kiểu dữ liệu cho tham số "Title"Lỗi 400: Bad requestCó thể kết nối server21/12/2024passHoàng Thị Hồng ThắmTest trường hợp thiếu tham số bắt buộc3Test trường hợp thiếu tham số bắt buộcKhông nhập các dữ liệu cho trường File AudioLỗi 400: Missing paramCó thể kết nối server21/12/2024passHoàng Thị Hồng ThắmTest trường hợp trùng dữ liệu ở các tham số4Test trường hợp trùng dữ liệu ở các tham sốNhập Main Artist và Sub Artist cùng dữ liệuLỗi 400: Duplicate unitCó thể kết nối server21/12/2024passHoàng Thị Hồng Thắm Test trường hợp thành công5Test trường hợp thành côngNhập đầy đủ dữ liệu và hợp lệ
-- Title
-- Main Artist
-- Sub Artist
-- Audio
-- Release Date
-- Lyric FileTrả về response status 200, body rỗngCó thể kết nối server 21/12/2024 passHoàng Thị Hồng Thắm     
-FeatureThêm mới album (Admin)Test requirementTest API Add new albumNumber of TCs4Testing RoundPassedFailedPendingN/ARound 1400IDMô tảTiến trìnhKết quả mong muốnĐiều kiệnNgàyKết quảTesterNoteTest endpoint API1Test trường hợp sai endpoint APINhập sai endpoint APILỗi 404: Resource not foundCó thể kết nối server21/12/2024passHoàng Thị Hồng ThắmTest kiểu dữ liệu tham số2Test trường hợp sai kiểu dữ liệu tham sốNhập sai kiểu dữ liệu cho tham số "Release Date"Lỗi 400: Bad requestCó thể kết nối server21/12/2024passHoàng Thị Hồng ThắmTest trường hợp thiếu tham số bắt buộc3Test trường hợp thiếu tham số bắt buộcKhông nhập các dữ liệu cho trường "Type Album"Lỗi 400: Missing paramCó thể kết nối server21/12/2024passHoàng Thị Hồng ThắmTest trường hợp thành công4Test trường hợp thành côngNhập đầy đủ dữ liệu và hợp lệ
-- Title
-- Main Artist
-- Type Album
-- Album Image
-- Release Date
-  - List SongsTrả về response status 200, body rỗngCó thể kết nối server21/12/2024passHoàng Thị Hồng Thắm
-FeatureĐăng nhậpTest requirementTest API LoginNumber of TCs3Testing RoundPassedFailedPendingN/ARound 1300IDMô tảTiến trìnhKết quả mong muốnĐiều kiệnNgàyKết quảTesterNoteTest endpoint API1Test trường hợp sai endpoint APINhập sai endpoint APILỗi 404: Not FoundCó thể kết nối server21/12/2024passĐinh Hoàng Phi HùngTest trường hợp thiếu tham số bắt buộc2Test trường hợp thiếu tham số bắt buộcNhập sai kiểu dữ liệu cho tham số "Password"Lỗi 500: Internal Server ErrorCó thể kết nối server21/12/2024passĐinh Hoàng Phi HùngTest trường hợp thành công3Test trường hợp thành côngNhập đầy đủ dữ liệu và hợp lệ
-- Username
-- Password
-Trả về response status 200, body gồm có role, direct, accountType, accessToken
-Có thể kết nối server21/12/2024passĐinh Hoàng Phi Hùng
-FeatureĐăng kíTest requirementTest API RegisterNumber of TCs4Testing RoundPassedFailedPendingN/ARound 1400IDMô tảTiến trìnhKết quả mong muốnĐiều kiệnNgàyKết quảTesterNoteTest endpoint API1Test trường hợp sai endpoint APINhập sai endpoint APILỗi 404: Not FoundCó thể kết nối server21/12/2024passĐinh Hoàng Phi HùngTest trường hợp thiếu tham số bắt buộc2Test trường hợp thiếu tham số bắt buộcNhập sai kiểu dữ liệu cho tham số "Password"Lỗi 500: Internal Server ErrorCó thể kết nối server21/12/2024passĐinh Hoàng Phi HùngTest trường hợp OTP hết hạn3Test trường hợp OTP hết hạnNhập OTP hết hạnLỗi 409: Conflict
-Detail: ApiError: OTP is invalid or expired
-Có thể kết nối server21/12/2024passĐinh Hoàng Phi HùngTest trường hợp thành công4Test trường hợp thành côngNhập đầy đủ dữ liệu và hợp lệ
-- username
-- Password
-- OTP
-- email
-Trả về response status 200, body gồm có role, direct, accountType, accessToken
-Có thể kết nối server21/12/2024passĐinh Hoàng Phi Hùng
-9. 
-SẢN PHẨM
-9.1. Web end-user
- Xây dựng thành công hệ thống nghe nhạc trực tuyến có đầy đủ các chức năng yêu cầu như phát nhạc trực tuyến, quản lý playlist cho người dùng và các tính năng PREMIUM như nghe nhạc cùng nhau
- Link deploy: 
-
-Hình 9- 1 Giao diện chính web end-user
-9.2. Web admin
-    Trang chủ dành cho admin quản lý tài khoản, ca sĩ, bài hát, album và quản lý báo cáo bình luận
-    Link deploy: 
-
-     Hình 9- 2 Giao diện chính web admin
-9.3. App end-user
-    Ứng dụng dành cho người dùng nghe nhạc trực tuyến, có đầy đủ các chức năng và hỗ trợ cho việc phát nhạc khi đang ở điều kiện không có internet. Dung lượng ứng dụng là 
-
-
-KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
-9.4. Kết luận
-* Tích hợp AI để đề xuất các bài hát và danh sách phát được cá nhân hóa, giúp cải thiện trải nghiệm người dùng.
-* Tích hợp ai lọc bình luận tiêu cực, nhằm loại bỏ những nội dung xúc phạm và không phù hợp
-* Phát triển phiên bản ngoại tuyến cho phép bạn nghe nhạc và quản lý danh sách phát mà không cần kết nối internet.
-* Hỗ trợ tải nhạc cá nhân, tăng sự đa dạng của thư viện nhạc.
-* Đã thêm đánh giá bài hát và nghệ sĩ, cải thiện tương tác và phản hồi của người dùng.
-9.5. Hướng phát triển
-* Nâng cấp hệ thống AI lọc bình luận tiêu cực từ những báo cáo của người dùng. Giúp mô hình lọc bình luận trở nên chính xác và hiệu quá
-* Cải thiện trải người dùng: Tăng sự mượt mà và giảm delay khi sử dụng hệ thống
-* Tích hợp podcast, chương trình radio hoặc nội dung học nhạc vào ứng dụng.
-* Ứng dụng công nghệ blockchain để quản lý bản quyền âm nhạc và đảm bảo tính minh bạch.
-10. 
-TÀI LIỆU THAM KHẢO
-[1] https://nextjs.org/docs
-[2] https://github.com/VinAIResearch/PhoBERT?tab=readme-ov-file
-[3] https://www.postgresql.org/docs/
-
-
-PBL6: DỰ ÁN CHUYÊN NGÀNH CÔNG NGHỆ PHẦN MỀM
-    
-Hệ thống nghe nhạc trực tuyến Melodies		Trang 3
-    

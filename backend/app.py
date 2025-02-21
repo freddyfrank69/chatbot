@@ -2,16 +2,14 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters.character import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
+from langchain_community.document_loaders import TextLoader, PyPDFLoader, CSVLoader, UnstructuredMarkdownLoader, Docx2txtLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.memory import ConversationBufferMemory
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.chains import ConversationalRetrievalChain
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.document_loaders import TextLoader
-from langchain.document_loaders import DirectoryLoader
+from langchain_openai import ChatOpenAI
+from langchain.prompts import PromptTemplate
 from config import custom_instruction
 
 # Load environment variables
@@ -20,38 +18,64 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# Load your API key
-google_api_key = os.getenv("GOOGLE_API_KEY")
+# Define the folder containing documents
+docs_folder = "./docs"
+documents = []
 
-# Build Vector database
-file_path = "./docs/docs.txt"
-# dir_path = "./docs"
-loader = TextLoader(file_path, encoding="utf-8")
-docs = loader.load()
+# Loop through all files and load documents based on file type
+for file_name in os.listdir(docs_folder):
+    file_path = os.path.join(docs_folder, file_name)
 
-# Split document into chunks
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,
-    chunk_overlap=500
-)
-doc_chunks = text_splitter.split_documents(docs)
+    if file_name.endswith(".txt"):
+        loader = TextLoader(file_path, encoding="utf-8")
+    elif file_name.endswith(".md"):
+        loader = UnstructuredMarkdownLoader(file_path)
+    elif file_name.endswith(".pdf"):
+        loader = PyPDFLoader(file_path)
+    elif file_name.endswith(".csv"):
+        loader = CSVLoader(file_path)
+    elif file_name.endswith(".docx"):
+        loader = Docx2txtLoader(file_path)
+    else:
+        continue  # Skip unsupported file types
 
-# Embed the chunks and store them in a vector store
+    documents.extend(loader.load())
+
+# Split documents into chunks
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=500)
+doc_chunks = text_splitter.split_documents(documents)
+
+# Embed the chunks and store in ChromaDB
 embeddings = HuggingFaceEmbeddings()
-vectordb = FAISS.from_documents(doc_chunks, embeddings)
+vectordb = Chroma.from_documents(doc_chunks, embeddings, persist_directory="./chroma_db")
 
-# Initialize Google Generative AI with custom instruction
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", system_message=custom_instruction)
+# Initialize LLM
+llm = ChatOpenAI(
+    model="llama3.2",
+    base_url="http://localhost:11434/v1",
+    api_key="ollama"
+)
+
 retriever = vectordb.as_retriever(search_kwargs={"k": 3})
 
 memory = ConversationBufferWindowMemory(
-    k=3,  # Keep only the last 5 interactions
+    k=5,
     memory_key="chat_history",
     return_messages=True
 )
 
+prompt_template = PromptTemplate(
+    input_variables=["chat_history", "question", "context"],
+    template=f"{custom_instruction}\n\nChat History:\n{{chat_history}}\n\nContext:\n{{context}}\n\nQuestion:\n{{question}}\n\nAnswer:"
+)
+
 chain = ConversationalRetrievalChain.from_llm(
-    llm=llm, retriever=retriever, chain_type="stuff", memory=memory, verbose=True
+    llm=llm, 
+    retriever=retriever, 
+    chain_type="stuff", 
+    memory=memory, 
+    verbose=True,
+    combine_docs_chain_kwargs={"prompt": prompt_template}
 )
 
 @app.route("/chat", methods=["POST"])
