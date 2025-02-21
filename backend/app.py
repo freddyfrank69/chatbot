@@ -4,7 +4,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from langchain_community.document_loaders import TextLoader, PyPDFLoader, CSVLoader, UnstructuredMarkdownLoader, Docx2txtLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.chains import ConversationalRetrievalChain
@@ -45,21 +45,21 @@ for file_name in os.listdir(docs_folder):
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=500)
 doc_chunks = text_splitter.split_documents(documents)
 
-# Embed the chunks and store in FAISS vector store
+# Embed the chunks and store in ChromaDB
 embeddings = HuggingFaceEmbeddings()
-vectordb = FAISS.from_documents(doc_chunks, embeddings)
+vectordb = Chroma.from_documents(doc_chunks, embeddings, persist_directory="./chroma_db")
 
-# Initialize local LLM (Ollama)
+# Initialize LLM
 llm = ChatOpenAI(
-    model="llama3.2",  # Change model as needed for Ollama
+    model="llama3.2",
     base_url="http://localhost:11434/v1",
-    api_key="ollama"  # Required but unused
+    api_key="ollama"
 )
 
 retriever = vectordb.as_retriever(search_kwargs={"k": 3})
 
 memory = ConversationBufferWindowMemory(
-    k=3,
+    k=5,
     memory_key="chat_history",
     return_messages=True
 )
