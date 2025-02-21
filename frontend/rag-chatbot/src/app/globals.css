@@ -11,9 +11,6 @@ body {
 
 .chat-container {
   width: 700px;
-  background: #1e1e1e;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   padding: 16px;
@@ -22,7 +19,7 @@ body {
 .chat-box {
   flex-grow: 1;
   overflow-y: auto;
-  max-height: 300px;
+  max-height: 600px;
   margin-bottom: 12px;
   display: flex;
   flex-direction: column;
@@ -51,6 +48,7 @@ body {
 
 .message.user {
   justify-content: flex-end;
+  margin-left: 50px;
 }
 
 .message.ai {
@@ -66,7 +64,7 @@ body {
 }
 
 .message.user .bubble {
-  background-color: #3a3b3c;
+  background-color: #0065b8;
   color: white;
   text-align: right;
   align-self: flex-end;
@@ -149,4 +147,10 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  
+  font-size: 20px;
+  font-weight: 600;
+  color: #2D2D2D;
+
+  padding-bottom: 50px;
 }

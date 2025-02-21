@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
@@ -28,7 +29,7 @@ export default function ChatPage() {
 
       const data = await res.json();
       const aiMessage = { role: "ai", content: data.response };
-      
+
       // Remove typing indicator and add response
       setMessages((prev) => prev.slice(0, -1).concat(aiMessage));
     } catch (error) {
@@ -44,10 +45,14 @@ export default function ChatPage() {
     }
   };
 
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="app-container">
       {messages.length === 0 && <div className="empty-state">What can I help with?</div>}
-      <div className="chat-container">
+      <div className={`chat-container ${messages.length > 0 ? "has-messages" : ""}`}>
         <div className="chat-box">
           {messages.map((msg, idx) => (
             <div key={idx} className={`message ${msg.role}`}>
@@ -56,6 +61,7 @@ export default function ChatPage() {
               </span>
             </div>
           ))}
+          <div ref={chatEndRef} />
         </div>
         <div className="input-box">
           <input
