@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #121212;
+  background-color: #363636;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -9,11 +9,23 @@ body {
   color: white;
 }
 
-.chat-container {
-  width: 700px;
+.app-container {
   display: flex;
   flex-direction: column;
+  width: 730px;
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #222;
+  padding: 10px;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   padding: 16px;
+  overflow: hidden;
 }
 
 .chat-box {
@@ -80,6 +92,8 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  position: sticky;
+  bottom: 0;
 }
 
 input {
@@ -150,7 +164,8 @@ button:disabled {
   
   font-size: 20px;
   font-weight: 600;
-  color: #2D2D2D;
+  color: #bbbbbb;
 
+  padding-top: 150px;
   padding-bottom: 50px;
 }
