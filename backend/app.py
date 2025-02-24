@@ -59,7 +59,7 @@ llm = ChatOpenAI(
 retriever = vectordb.as_retriever(search_kwargs={"k": 3})
 
 memory = ConversationBufferWindowMemory(
-    k=5,
+    k=2,
     memory_key="chat_history",
     return_messages=True
 )

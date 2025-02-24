@@ -1,0 +1,171 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #363636;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 730px;
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #222;
+  padding: 10px;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 600px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3b3c #1e1e1e;
+}
+
+.chat-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  background: #3a3b3c;
+  border-radius: 4px;
+}
+
+.message {
+  display: flex;
+  max-width: 80%;
+}
+
+.message.user {
+  justify-content: flex-end;
+  margin-left: 50px;
+}
+
+.message.ai {
+  justify-content: flex-start;
+}
+
+.bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 75%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.message.user .bubble {
+  background-color: #0065b8;
+  color: white;
+  text-align: right;
+  align-self: flex-end;
+}
+
+.message.ai .bubble {
+  background-color: #242526;
+  color: white;
+  text-align: left;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: sticky;
+  bottom: 0;
+}
+
+input {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background: #3a3b3c;
+  color: white;
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+}
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: #bbb;
+  border-radius: 50%;
+  animation: typing 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  
+  font-size: 20px;
+  font-weight: 600;
+  color: #bbbbbb;
+
+  padding-top: 150px;
+  padding-bottom: 50px;
+}
